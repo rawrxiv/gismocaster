@@ -20,6 +20,17 @@
         "range_max": 255,
         "discoverytype": "light"
       }
-    }    
+    },    
+    {
+      "model": "tuyamqtt.dpstype",
+      "pk": 3,
+      "fields": {
+        "name": "Timer",
+        "valuetype": "int",
+        "range_min": 0,
+        "range_max": 255,
+        "discoverytype": "timer"
+      }
+    }      
   ]
   
