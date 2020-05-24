@@ -3,6 +3,7 @@ import time
 import paho.mqtt.client as mqtt
 import logging
 from threading import Thread
+import json
 
 loglevel = logging.DEBUG
 logger = logging.getLogger(__name__)
@@ -91,7 +92,7 @@ class MQTT(Thread):
     def on_connect(self, client, userdata, flags, rc):
 
         logger.info("MQTT Connection state: %s " % (connack_string(rc)))
-        self.connected = True
+        self.connected = True        
         self.publish_devices()
         # listen to homeassistant auto discovery, why?
         # self.client.subscribe("homeassistant/#")
@@ -106,19 +107,26 @@ class MQTT(Thread):
 
 
     def publish_device(self, device:dict):
-
-        print(device)
+        #tmp
+        device['attributes'] = {
+                'dps': {},
+                'via': {}
+            }
+        # device['attributes'] = dict(self.Dps.objects.values())
+        # print(self.Dps.objects.values())
         #TODO publish tuyamqtt config retain
         #TODO publish homeassistant config retain
-        # client.publish(f"{mqtt_topic}/availability" , value, retain=True)
+        #delete retained
+        # self.client.publish(f"tuya/mqtt/{device.get('deviceid')}" , None, retain=True) 
+        self.client.publish(f"tuya/discovery/{device.get('deviceid')}" , json.dumps(device), retain=True)
 
 
     def publish_devices(self):
 
-        for device in self.Device.objects.all():
-            self.publish_device(dict(device))
-       
-        pass
+        # print(self.Device.objects.values())
+        for device in self.Device.objects.values():
+            self.publish_device(dict(device))       
+        
 
 #TODO: prevent multiple starts 
 # class SingleMQTT:
@@ -142,10 +150,11 @@ class MQTT(Thread):
 # s = SingleMQTT()
 # print (s)
 
-print("runs two times, why?")
+# print("runs two times, why?")
+# x = MQTT()
+# x.start()
 x = MQTT()
 x.start()
-
 
 """
 def hass_discovery(self, entity):
