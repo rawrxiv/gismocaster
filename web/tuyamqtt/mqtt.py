@@ -30,6 +30,7 @@ class MQTT(Thread):
         self.client = mqtt.Client()
         self.connected = False
         self.models_loaded = False
+        #TODO: watch kill signal and close clean
 
 
     def load_models(self):
@@ -43,7 +44,7 @@ class MQTT(Thread):
             self.models_loaded = True
             return True
         except Exception as ex:
-            print(ex)
+            # print(ex)
             pass
         return False
 
@@ -58,6 +59,12 @@ class MQTT(Thread):
             if not self.connected:
                 self.mqtt_connect()
                 self.client.loop_start()
+            #TODO: on_start publish devices once retain
+            #TODO: watch for changes in Devices/Dps and publish
+                #does django fire events for this?
+            #TODO: watch for changes in Setting and reconnect
+            #TODO: watch connection MQTT and reconnect
+
             # for u in self.Device.objects.all():
             # rec = self.Setting.objects.get(name="mqtt_host").value
             # print(list(self.Setting.objects.filter(name__startswith='mqtt_host').values('value')), rec)
@@ -80,14 +87,17 @@ class MQTT(Thread):
             self.connected = False
 
 
+    #TODO what are the types of these func params
     def on_connect(self, client, userdata, flags, rc):
 
         logger.info("MQTT Connection state: %s " % (connack_string(rc)))
         self.connected = True
+        self.publish_devices()
         # listen to homeassistant auto discovery, why?
         # self.client.subscribe("homeassistant/#")
 
 
+    #TODO what are the types of these func params
     def on_message(self, client, userdata, message):
 
         logger.debug("topic %s retained %s message received %s", message.topic,
@@ -95,15 +105,42 @@ class MQTT(Thread):
         pass
 
 
+    def publish_device(self, device:dict):
+
+        print(device)
+        #TODO publish tuyamqtt config retain
+        #TODO publish homeassistant config retain
+        # client.publish(f"{mqtt_topic}/availability" , value, retain=True)
+
+
     def publish_devices(self):
 
-        # pull devices from db
-
-        # publish tuyamqtt config retain
-        # publish homeassistant config retain
-
-        # client.publish(f"{mqtt_topic}/availability" , value, retain=True)
+        for device in self.Device.objects.all():
+            self.publish_device(dict(device))
+       
         pass
+
+#TODO: prevent multiple starts 
+# class SingleMQTT:
+
+#    __instance = None
+
+#    @staticmethod 
+#    def getInstance():
+#       """ Static access method. """
+#       if SingleMQTT.__instance == None:
+#          SingleMQTT()
+#       return SingleMQTT.__instance
+
+#    def __init__(self):
+#       """ Virtually private constructor. """
+#       if SingleMQTT.__instance != None:
+#          raise Exception("This class is a singleton!")
+#       else:
+#          SingleMQTT.__instance = self
+
+# s = SingleMQTT()
+# print (s)
 
 print("runs two times, why?")
 x = MQTT()
