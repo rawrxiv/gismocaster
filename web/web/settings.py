@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'tuyamqtt.apps.TuyamqttConfig',
+    'tuyamqtt.apps.TuyamqttConfig',    
     "django_createsuperuser",
     'django.contrib.admin',
     'django.contrib.auth',
