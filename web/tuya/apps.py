@@ -2,9 +2,9 @@ from django.apps import AppConfig
 from . import mqtt
 from django.utils.translation import ugettext_lazy as _
 
-class TuyamqttConfig(AppConfig):
-    name = 'tuyamqtt'
-    verbose_name = _('tuyamqtt')
+class TuyaConfig(AppConfig):
+    name = 'tuya'
+    verbose_name = _('tuya')
 
     def ready(self):
         mqtt.init()

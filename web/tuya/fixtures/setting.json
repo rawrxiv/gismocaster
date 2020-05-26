@@ -1,0 +1,66 @@
+[
+    {
+      "model": "tuya.setting",
+      "pk": 1,
+      "fields": {
+        "name": "mqtt_host",
+        "value": "127.0.0.1"
+      }
+    },    
+    {
+      "model": "tuya.setting",
+      "pk": 2,
+      "fields": {
+        "name": "mqtt_port",
+        "value": "1883"
+      }
+    },    
+    {
+      "model": "tuya.setting",
+      "pk": 3,
+      "fields": {
+        "name": "mqtt_user",
+        "value": ""
+      }
+    },    
+    {
+      "model": "tuya.setting",
+      "pk": 4,
+      "fields": {
+        "name": "mqtt_pass",
+        "value": ""
+      }
+    },    
+    {
+      "model": "tuya.setting",
+      "pk": 5,
+      "fields": {
+        "name": "ha_payload_off",
+        "value": "OFF"
+      }
+    },    
+    {
+      "model": "tuya.setting",
+      "pk": 6,
+      "fields": {
+        "name": "ha_payload_on",
+        "value": "ON"
+      }
+    },    
+    {
+      "model": "tuya.setting",
+      "pk": 7,
+      "fields": {
+        "name": "ha_availability_online",
+        "value": "online"
+      }
+    },    
+    {
+      "model": "tuya.setting",
+      "pk": 8,
+      "fields": {
+        "name": "ha_availability_offline",
+        "value": "offline"
+      }
+    }       
+  ]

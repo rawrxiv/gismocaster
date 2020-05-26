@@ -10,8 +10,7 @@ class Setting(models.Model):
 
 class Device(models.Model):
 
-    name = models.CharField(max_length=32)
-    topic = models.CharField(max_length=200)
+    name = models.CharField(max_length=32)    
 
     protocol_choices = [
         ('3.1', '3.1'),
@@ -23,6 +22,7 @@ class Device(models.Model):
     localkey = models.CharField(max_length=64)
     ip = models.GenericIPAddressField()
     hass_discovery = models.BooleanField()
+    tuya_discovery = models.BooleanField()
     def __str__(self):
         return self.deviceid
 
@@ -58,12 +58,12 @@ class Dps(models.Model):
     key = models.IntegerField()
     value = models.CharField(max_length=16)
 
-    via_choices = [
-        ('tuya', 'Tuya'),
-        ('mqtt', 'MQTT'),
-    ]
+    # via_choices = [
+    #     ('tuya', 'Tuya'),
+    #     ('mqtt', 'MQTT'),
+    # ]
 
-    via = models.CharField(max_length=8, choices=via_choices, default='tuya')
+    # via = models.CharField(max_length=8, choices=via_choices, default='tuya')
     dpstype = models.ForeignKey(Dpstype, on_delete=models.CASCADE)
     def __str__(self):
         return self.device.name+":"+str(self.key)

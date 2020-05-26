@@ -1,6 +1,6 @@
 [
     {
-      "model": "tuyamqtt.dpstype",
+      "model": "tuya.dpstype",
       "pk": 1,
       "fields": {
         "name": "Switch",
@@ -11,7 +11,7 @@
       }
     },    
     {
-      "model": "tuyamqtt.dpstype",
+      "model": "tuya.dpstype",
       "pk": 2,
       "fields": {
         "name": "Light",
@@ -22,7 +22,7 @@
       }
     },    
     {
-      "model": "tuyamqtt.dpstype",
+      "model": "tuya.dpstype",
       "pk": 3,
       "fields": {
         "name": "Timer",
