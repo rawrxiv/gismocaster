@@ -53,7 +53,7 @@ def unpublish_device(deviceid:str):
     client.publish(f"tuya/discovery/{deviceid}" , None, retain=True) 
 
 
-def publish_device(deviceid:str):       
+def publish_device(deviceid:str):
 
     #TODO: filter out id fields 
     device = models_dict['device'].objects.get(deviceid=deviceid)     

@@ -58,6 +58,11 @@ todo
 - publish ha discovery on start/save/delete
 - watch connection MQTT and reconnect
 - clean up db fields
+- filter out id fields tuya/discovery
+- setup auto release Pypi
+- add dpstypes to fixtures
+- docker config example
+- docker expose port
 
 Changelog
 ---------
@@ -74,6 +79,10 @@ Changelog
     - device show related dps items
     - option selects   
 - pre populate db for dpstypes
+
+future development ideas
+--------
+- scan the network for tuya devices / key extraction
 
 
 db model
