@@ -53,27 +53,113 @@ def unpublish_device(deviceid:str):
     client.publish(f"tuya/discovery/{deviceid}" , None, retain=True) 
 
 
-def publish_device(deviceid:str):       
+def _filter_id(dictDirty:dict):
 
-    #TODO: filter out id fields 
-    device = models_dict['device'].objects.get(deviceid=deviceid)     
-    dpss = device.dps_set.all()    
+    return dict(filter(lambda elem: elem[0][-3:] != '_id' and elem[0] != 'id', dictDirty.items()))
+   
+def publish_hass_dps(device: dict, dps:dict):
     
-    tuyamqtt_device = dict(models_dict['device'].objects.filter(deviceid__startswith=deviceid).values()[0]) 
-    tuyamqtt_device['dps'] = list(dpss.values())
+    hass_id = f'{device["deviceid"]}_{dps["key"]}'
+    hass_topic = f'homeassistant/{dps["dpstype"]["discoverytype"]}/{hass_id}/config'
 
-    for dps in tuyamqtt_device['dps']:
-        dpstype = models_dict['dpstype'].objects.filter(id__startswith=dps['dpstype_id']).values()[0]
-        dps['dpstype'] = dict(dpstype)
-
-    
-    logger.debug(f"publish_device tuya/discovery/{deviceid} {tuyamqtt_device}")
+    payload = {
+        "name": device['name'],
+        "cmd_t": "~command",
+        "stat_t": "~state",
+        "val_tpl":"{{value_json.POWER}}",
+        "pl_off": models_dict['setting'].objects.get(name="ha_payload_off").value,
+        "pl_on":  models_dict['setting'].objects.get(name="ha_payload_on").value,
+        "avty_t":"~availability",
+        "pl_avail": models_dict['setting'].objects.get(name="ha_availability_online").value,
+        "pl_not_avail":  models_dict['setting'].objects.get(name="ha_availability_offline").value,
+        "uniq_id": hass_id,        
+        "device":{
+            "identifiers":[device["deviceid"]]
+        },
+        "~": f'tuya/{device["deviceid"]}/{hass_id}/'
+    }
+  
     try:
-        client.publish(f"tuya/discovery/{deviceid}", json.dumps(tuyamqtt_device), retain=True)
+        logger.debug(f"{hass_topic} {json.dumps(payload)}")
+        client.publish(hass_topic, json.dumps(payload), retain=True)
+    except Exception as ex:
+        logger.exception(f"publish_hass_dps {ex}", exc_info= False)
+
+def publish_hass(device: dict):
+    """
+    homeassistant/sensor/ABBD20_status/config = {
+        "name":"Kitchen Left Lighting status",
+        "stat_t":"~HASS_STATE",
+        "avty_t":"~LWT",
+        "frc_upd":true,
+        "pl_avail":"Online",
+        "pl_not_avail":"Offline",
+        "json_attributes_topic":"~HASS_STATE",
+        "unit_of_meas":" ",
+        "val_tpl":"{{value_json['RSSI']}}",
+        "ic":"mdi:information-outline",
+        "uniq_id":"ABBD20_status",
+        "device":{
+            "identifiers":["ABBD20"],
+            "connections":[["mac","DC:4F:22:AB:BD:20"]],
+            "name":"Kitchen Left Lighting",
+            "model":"Sonoff Basic",
+            "sw_version":"8.1.0.2(1e06976-tasmota)",
+            "manufacturer":"Tasmota"
+        },
+        "~":"kitchen_left_lighting/tele/"} (retained)
+    """
+    payload = {
+        "name": f"{device['name']} status",
+        "pl_off": models_dict['setting'].objects.get(name="ha_payload_off").value,
+        "pl_on":  models_dict['setting'].objects.get(name="ha_payload_on").value,
+        "uniq_id":f'{device["deviceid"]}_status',
+        "json_attributes_topic":"~state",
+        "stat_t":"~state",
+        "avty_t":"~availability",
+        "device":{
+            "identifiers":[device["deviceid"]],
+            "name": f"{device['name']}",
+            "model":"TuyaMQTT",
+            "sw_version":"1.0.0",
+            "manufacturer":"MQTTDevices"
+        },
+        "~": f'tuya/{device["deviceid"]}/'
+    }
+    topic = f'homeassistant/sensor/{device["deviceid"]}_status/config'
+
+    try:
+        logger.debug(f"{topic} {json.dumps(payload)}")
+        client.publish(topic, json.dumps(payload), retain=True)
+    except Exception as ex:
+        logger.exception(f"publish_hass {ex}", exc_info= False)
+
+    for dps in device['dps']:
+        publish_hass_dps(device, dps)
+
+def publish_device(deviceid:str):
+
+    device = models_dict['device'].objects.get(deviceid=deviceid) 
+    tuya_device = _filter_id(dict(models_dict['device'].objects.filter(deviceid__startswith=deviceid).values()[0])) 
+
+    dpss = device.dps_set.all()
+    dps_list = list(dpss.values())
+
+    tuya_device['dps'] = []
+    for dps in dps_list:        
+        dpstype = models_dict['dpstype'].objects.filter(id__startswith=dps['dpstype_id']).values()[0]
+        dps['dpstype'] = _filter_id(dict(dpstype))
+        tuya_device['dps'].append(_filter_id(dps))
+    
+    
+    try:
+        logger.debug(f"publish_device tuya/discovery/{deviceid} {json.dumps(tuya_device)}")
+        client.publish(f"tuya/discovery/{deviceid}", json.dumps(tuya_device), retain=True)
     except Exception as ex:
         logger.exception(f"publish_device {ex}", exc_info= False)
     
     #TODO publish homeassistant config retain   
+    publish_hass(tuya_device)
 
 
 def publish_devices():
