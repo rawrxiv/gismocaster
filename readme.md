@@ -1,7 +1,26 @@
 
+MQTT Devices (WIP)
+==============
+User interface to configure autodiscovery for TuyaMQTT (and Home Assistant: WIP). 
+
+How does it work?
+---------------
+MQTT devices offers a webinterface in which you can add/alter/delete devices and setup the dps properties. This configuration is written to your MQTT broker as a retain message. 
+TuyaMQTT and Home Assistant are listening for these autodiscovery topics. 
+
+```
+ 
+MQTT Devices -> MQTT broker -> Home Assistant sets up the device                          
+                            -> TuyaMQTT sets up the device
+```
+
+Support
+------------
+TuyaMQTT will add support for MQTT Devices in v1.1
+
 install
 ------
-```
+```bash
 git clone https://github.com/TradeFace/mqttdevices.git
 cd mqttdevices
 make
@@ -10,11 +29,17 @@ make install
 
 run it
 --------------
+```bash
 python3 web/manage.py runserver --noreload
+```
+In your browser goto http://127.0.0.1:8000/admin
+
+- user: admin
+- pass: admin
 
 build docker
 -------
-```
+```bash
 git clone https://github.com/TradeFace/mqttdevices.git
 cd mqttdevices
 make docker
@@ -22,15 +47,17 @@ make docker
 
 Running Docker
 ------------
-```
+```bash
 docker run -it --rm --name my-app mqttdevices
 ```
 
 
 todo
 ----
+- rename app to just 'tuya'
 - publish ha discovery on start/save/delete
 - watch connection MQTT and reconnect
+- clean up db fields
 
 Changelog
 ---------

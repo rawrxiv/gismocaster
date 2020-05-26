@@ -67,7 +67,7 @@ def publish_device(deviceid:str):
         dps['dpstype'] = dict(dpstype)
 
     
-    logger.debug(f"publish_device tuya/discovery/{deviceid} {tuyamqtt_device}")
+    logger.debug(f"publish_device tuya/discovery/{deviceid} {json.dumps(tuyamqtt_device)}")
     try:
         client.publish(f"tuya/discovery/{deviceid}", json.dumps(tuyamqtt_device), retain=True)
     except Exception as ex:
