@@ -2,7 +2,6 @@
 import time
 import paho.mqtt.client as mqtt
 import logging
-# from threading import Thread
 import json
 import asyncio
 
@@ -16,12 +15,6 @@ connected = False
 models_loaded = False
 models_dict = {}
 
-#TODO: on_start publish devices once retain
-#TODO: watch for changes in Devices/Dps and publish
-    #does django fire events for this?
-    #https://docs.djangoproject.com/en/3.0/ref/signals/#post_save
-#TODO: watch for changes in Setting and reconnect
-#TODO: watch connection MQTT and reconnect
 
 def connack_string(state):
 
@@ -56,31 +49,31 @@ def on_message(client, userdata, message):
 
 def unpublish_device(deviceid:str):
 
-    print('unpublish_device',deviceid)
+    logger.debug(f"unpublish_device tuya/discovery/{deviceid}")
     client.publish(f"tuya/discovery/{deviceid}" , None, retain=True) 
 
 
-def publish_device(deviceid:str):
+def publish_device(deviceid:str):       
 
-        print('publish_device', deviceid)
-        return
-        #tmp
-        
-        # device['attributes'] = dict(self.Dps.objects.values())
-        # print(self.Dps.objects.values())
-        
-        #TODO publish homeassistant config retain
-        #delete retained
-        # self.client.publish(f"tuya/mqtt/{device.get('deviceid')}" , None, retain=True) 
+    #TODO: filter out id fields 
+    device = models_dict['device'].objects.get(deviceid=deviceid)     
+    dpss = device.dps_set.all()    
+    
+    tuyamqtt_device = dict(models_dict['device'].objects.filter(deviceid__startswith=deviceid).values()[0]) 
+    tuyamqtt_device['dps'] = list(dpss.values())
 
-        #TODO publish tuyamqtt config retain
-        dps = []
-        for item in models_dict['dpstype'].objects.values():
-            print(type(item))
-            print(models_dict['dpstype'].objects.get(id=item['dpstype_id']))
-        device['dps'] = list(models_dict['dpstype'].objects.values())
-        print(json.dumps(device))
-        client.publish(f"tuya/discovery/{device.get('deviceid')}" , json.dumps(device), retain=True)
+    for dps in tuyamqtt_device['dps']:
+        dpstype = models_dict['dpstype'].objects.filter(id__startswith=dps['dpstype_id']).values()[0]
+        dps['dpstype'] = dict(dpstype)
+
+    
+    logger.debug(f"publish_device tuya/discovery/{deviceid} {tuyamqtt_device}")
+    try:
+        client.publish(f"tuya/discovery/{deviceid}", json.dumps(tuyamqtt_device), retain=True)
+    except Exception as ex:
+        logger.exception(f"publish_device {ex}", exc_info= False)
+    
+    #TODO publish homeassistant config retain   
 
 
 def publish_devices():
@@ -90,22 +83,20 @@ def publish_devices():
 
 
 def mqtt_connect():
+    global client
+    try:
+        client = mqtt.Client()
+        # client.enable_logger()
+        # TODO: check if all values are there
+        client.username_pw_set(models_dict['setting'].objects.get(name="mqtt_user").value, models_dict['setting'].objects.get(name="mqtt_pass").value)
+        client.connect(models_dict['setting'].objects.get(name="mqtt_host").value, int(models_dict['setting'].objects.get(name="mqtt_port").value), 60)
+        client.on_connect = on_connect
+        client.loop_start()
+        client.on_message = on_message
 
-        print(models_dict['setting'])
-
-        try:
-            client = mqtt.Client()
-            # client.enable_logger()
-            # TODO: check if all values are there
-            client.username_pw_set(models_dict['setting'].objects.get(name="mqtt_user").value, models_dict['setting'].objects.get(name="mqtt_pass").value)
-            client.connect(models_dict['setting'].objects.get(name="mqtt_host").value, int(models_dict['setting'].objects.get(name="mqtt_port").value), 60)
-            client.on_connect = on_connect
-            client.loop_start()
-            client.on_message = on_message
-
-        except Exception as ex:
-            logger.warning('(%s) Failed to connect to MQTT Broker %s', '', ex)
-            connected = False
+    except Exception as ex:
+        logger.warning('(%s) Failed to connect to MQTT Broker %s', '', ex)
+        connected = False
 
 
 #Hacky construction to wait for apps to be fully loaded
