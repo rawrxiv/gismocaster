@@ -90,13 +90,13 @@ services:
 
 todo
 ----
-- publish ha discovery on start/save/delete
 - add dpstypes to fixtures
 - watch connection MQTT and reconnect
 - check settings before connection attempt
 
 Changelog
 ---------
+- publish ha discovery on start/save/delete (basics)
 - add setup.py
 - clean up db fields
 - rename app to just 'tuya'
