@@ -2,14 +2,26 @@
 import time
 import paho.mqtt.client as mqtt
 import logging
-from threading import Thread
+# from threading import Thread
 import json
+import asyncio
 
 loglevel = logging.DEBUG
 logger = logging.getLogger(__name__)
 logging.basicConfig(
     format='%(asctime)s %(levelname)-8s [%(name)s] %(message)s', level=loglevel)
 
+client = None
+connected = False
+models_loaded = False
+models_dict = {}
+
+#TODO: on_start publish devices once retain
+#TODO: watch for changes in Devices/Dps and publish
+    #does django fire events for this?
+    #https://docs.djangoproject.com/en/3.0/ref/signals/#post_save
+#TODO: watch for changes in Setting and reconnect
+#TODO: watch connection MQTT and reconnect
 
 def connack_string(state):
 
@@ -24,137 +36,130 @@ def connack_string(state):
     return states[state]
 
 
-class MQTT(Thread):
+#TODO what are the types of these func params
+def on_connect(client, userdata, flags, rc):
 
-    def __init__(self):
-        super().__init__()
-        self.client = mqtt.Client()
-        self.connected = False
-        self.models_loaded = False
-        #TODO: watch kill signal and close clean
-
-
-    def load_models(self):
-
-        try:
-            from .models import Setting, Device, Dps, Dpstype
-            self.Setting = Setting
-            self.Device = Device
-            self.Dps = Dps
-            self.Dpstype = Dpstype
-            self.models_loaded = True
-            return True
-        except Exception as ex:
-            # print(ex)
-            pass
-        return False
+    logger.info("MQTT Connection state: %s " % (connack_string(rc)))
+    connected = True        
+    publish_devices()
+    # listen to homeassistant auto discovery, why?
+    # client.subscribe("homeassistant/#")
 
 
-    def run(self):
-        
-        while not self.models_loaded:
-            self.load_models()
+#TODO what are the types of these func params
+def on_message(client, userdata, message):
 
-        while self.models_loaded:           
-            
-            if not self.connected:
-                self.mqtt_connect()
-                self.client.loop_start()
-            #TODO: on_start publish devices once retain
-            #TODO: watch for changes in Devices/Dps and publish
-                #does django fire events for this?
-            #TODO: watch for changes in Setting and reconnect
-            #TODO: watch connection MQTT and reconnect
-
-            # for u in self.Device.objects.all():
-            # rec = self.Setting.objects.get(name="mqtt_host").value
-            # print(list(self.Setting.objects.filter(name__startswith='mqtt_host').values('value')), rec)
-            time.sleep(1)
+    logger.debug("topic %s retained %s message received %s", message.topic,
+                    message.retain, str(message.payload.decode("utf-8")))
+    pass
 
 
-    def mqtt_connect(self):
+def unpublish_device(deviceid:str):
 
-        try:
-            self.client.enable_logger()
-            # TODO: check if all values are there
-            self.client.username_pw_set(self.Setting.objects.get(name="mqtt_user").value, self.Setting.objects.get(name="mqtt_pass").value)
-            self.client.connect(self.Setting.objects.get(name="mqtt_host").value, int(self.Setting.objects.get(name="mqtt_port").value), 60)
-            self.client.on_connect = self.on_connect
-            self.client.loop_start()
-            self.client.on_message = self.on_message
-
-        except Exception as ex:
-            logger.warning('(%s) Failed to connect to MQTT Broker %s', '', ex)
-            self.connected = False
+    print('unpublish_device',deviceid)
+    client.publish(f"tuya/discovery/{deviceid}" , None, retain=True) 
 
 
-    #TODO what are the types of these func params
-    def on_connect(self, client, userdata, flags, rc):
+def publish_device(deviceid:str):
 
-        logger.info("MQTT Connection state: %s " % (connack_string(rc)))
-        self.connected = True        
-        self.publish_devices()
-        # listen to homeassistant auto discovery, why?
-        # self.client.subscribe("homeassistant/#")
-
-
-    #TODO what are the types of these func params
-    def on_message(self, client, userdata, message):
-
-        logger.debug("topic %s retained %s message received %s", message.topic,
-                     message.retain, str(message.payload.decode("utf-8")))
-        pass
-
-
-    def publish_device(self, device:dict):
+        print('publish_device', deviceid)
+        return
         #tmp
-        device['attributes'] = {
-                'dps': {},
-                'via': {}
-            }
+        
         # device['attributes'] = dict(self.Dps.objects.values())
         # print(self.Dps.objects.values())
-        #TODO publish tuyamqtt config retain
+        
         #TODO publish homeassistant config retain
         #delete retained
         # self.client.publish(f"tuya/mqtt/{device.get('deviceid')}" , None, retain=True) 
-        self.client.publish(f"tuya/discovery/{device.get('deviceid')}" , json.dumps(device), retain=True)
+
+        #TODO publish tuyamqtt config retain
+        dps = []
+        for item in models_dict['dpstype'].objects.values():
+            print(type(item))
+            print(models_dict['dpstype'].objects.get(id=item['dpstype_id']))
+        device['dps'] = list(models_dict['dpstype'].objects.values())
+        print(json.dumps(device))
+        client.publish(f"tuya/discovery/{device.get('deviceid')}" , json.dumps(device), retain=True)
 
 
-    def publish_devices(self):
+def publish_devices():
 
-        # print(self.Device.objects.values())
-        for device in self.Device.objects.values():
-            self.publish_device(dict(device))       
-        
+    for device in models_dict['device'].objects.values():       
+        publish_device(dict(device).get('deviceid'))  
 
-#TODO: prevent multiple starts 
-# class SingleMQTT:
 
-#    __instance = None
+def mqtt_connect():
 
-#    @staticmethod 
-#    def getInstance():
-#       """ Static access method. """
-#       if SingleMQTT.__instance == None:
-#          SingleMQTT()
-#       return SingleMQTT.__instance
+        print(models_dict['setting'])
 
-#    def __init__(self):
-#       """ Virtually private constructor. """
-#       if SingleMQTT.__instance != None:
-#          raise Exception("This class is a singleton!")
-#       else:
-#          SingleMQTT.__instance = self
+        try:
+            client = mqtt.Client()
+            # client.enable_logger()
+            # TODO: check if all values are there
+            client.username_pw_set(models_dict['setting'].objects.get(name="mqtt_user").value, models_dict['setting'].objects.get(name="mqtt_pass").value)
+            client.connect(models_dict['setting'].objects.get(name="mqtt_host").value, int(models_dict['setting'].objects.get(name="mqtt_port").value), 60)
+            client.on_connect = on_connect
+            client.loop_start()
+            client.on_message = on_message
 
-# s = SingleMQTT()
-# print (s)
+        except Exception as ex:
+            logger.warning('(%s) Failed to connect to MQTT Broker %s', '', ex)
+            connected = False
 
-# print("runs two times, why?")
-# x = MQTT()
-# x.start()
-x = MQTT()
-x.start()
+
+#Hacky construction to wait for apps to be fully loaded
+async def load_models(on_models: callable):   
+ 
+        while True:
+            try:
+                from .models import Setting, Device, Dps, Dpstype     
+                on_models({
+                    'setting': Setting,
+                    'device': Device,
+                    'dps': Dps,
+                    'dpstype': Dpstype,
+                })
+                return
+            except Exception as ex:
+                asyncio.sleep(1)
+                pass
+
+
+def on_models(models):  
+
+    global models_dict
+    models_dict = models
+
+
+def init():
+
+    event_loop = asyncio.get_event_loop()
+    try:
+        return_value = event_loop.run_until_complete(load_models(on_models))        
+    finally:
+        event_loop.close()
+    mqtt_connect()
+
+
+# class MQTT():
+
+#     def __init__(self, on_models: callable):       
+#         self.on_models = on_models
+ 
+#         while True:
+#             try:
+#                 from .models import Setting, Device, Dps, Dpstype     
+#                 self.on_models({
+#                     'setting': Setting,
+#                     'device': Device,
+#                     'dps': Dps,
+#                     'dpstype': Dpstype,
+#                 })
+#                 return
+#             except Exception as ex:
+#                 time.sleep(1)
+#                 pass
 
 """
 def hass_discovery(self, entity):

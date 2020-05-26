@@ -24,7 +24,7 @@ class Device(models.Model):
     ip = models.GenericIPAddressField()
     hass_discovery = models.BooleanField()
     def __str__(self):
-        return self.name
+        return self.deviceid
 
 class Dpstype(models.Model):
 
