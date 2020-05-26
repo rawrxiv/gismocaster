@@ -53,23 +53,28 @@ def unpublish_device(deviceid:str):
     client.publish(f"tuya/discovery/{deviceid}" , None, retain=True) 
 
 
+def _filter_id(dictDirty:dict):
+
+    return dict(filter(lambda elem: elem[0][-3:] != '_id' and elem[0] != 'id', dictDirty.items()))
+   
+
 def publish_device(deviceid:str):
 
-    #TODO: filter out id fields 
-    device = models_dict['device'].objects.get(deviceid=deviceid)     
-    dpss = device.dps_set.all()    
-    
-    tuyamqtt_device = dict(models_dict['device'].objects.filter(deviceid__startswith=deviceid).values()[0]) 
-    tuyamqtt_device['dps'] = list(dpss.values())
+    device = models_dict['device'].objects.get(deviceid=deviceid) 
+    tuya_device = _filter_id(dict(models_dict['device'].objects.filter(deviceid__startswith=deviceid).values()[0])) 
 
-    for dps in tuyamqtt_device['dps']:
+    dpss = device.dps_set.all()
+    dps_list = list(dpss.values())
+
+    tuya_device['dps'] = []
+    for dps in dps_list:        
         dpstype = models_dict['dpstype'].objects.filter(id__startswith=dps['dpstype_id']).values()[0]
-        dps['dpstype'] = dict(dpstype)
-
+        dps['dpstype'] = _filter_id(dict(dpstype))
+        tuya_device['dps'].append(_filter_id(dps))
     
-    logger.debug(f"publish_device tuya/discovery/{deviceid} {json.dumps(tuyamqtt_device)}")
+    logger.debug(f"publish_device tuya/discovery/{deviceid} {json.dumps(tuya_device)}")
     try:
-        client.publish(f"tuya/discovery/{deviceid}", json.dumps(tuyamqtt_device), retain=True)
+        client.publish(f"tuya/discovery/{deviceid}", json.dumps(tuya_device), retain=True)
     except Exception as ex:
         logger.exception(f"publish_device {ex}", exc_info= False)
     

@@ -51,21 +51,60 @@ Running Docker
 docker run -it --rm --name my-app mqttdevices
 ```
 
+Running Docker Compose
+-------------
+```docker
+version: '3'
+services:
+  homeassistant:
+    ports: 
+      - "8123:8123"
+    ...
+    restart: always
+    network_mode: host
+  mosquitto:
+    image: eclipse-mosquitto
+    ...
+    restart: always
+    network_mode: host
+  tuyamqtt:
+    image: "tuyamqtt:latest"
+    hostname: tuyamqtt 
+    container_name: tuyamqtt   
+    working_dir: /usr/src/app    
+    volumes:
+      - ./config:/usr/src/app/config    
+    command: "python -u main.py"
+    restart: always
+    network_mode: host
+  mqttdevices:
+    image: "mqttdevices:latest"
+    hostname: mqttdevices 
+    container_name: mqttdevices
+    working_dir: /usr/src/app    
+    command: "python3 web/manage.py runserver --noreload"
+    restart: always
+    network_mode: host
+```
+
 
 todo
 ----
-- rename app to just 'tuya'
 - publish ha discovery on start/save/delete
-- watch connection MQTT and reconnect
-- clean up db fields
-- filter out id fields tuya/discovery
-- setup auto release Pypi
 - add dpstypes to fixtures
-- docker config example
-- docker expose port
+- watch connection MQTT and reconnect
+- check settings before connection attempt
 
 Changelog
 ---------
+- add setup.py
+- clean up db fields
+- rename app to just 'tuya'
+- docker config example
+- docker expose port
+- setup auto release Pypi
+- fixture for settings
+- filter out id fields tuya/discovery
 - on_start publish devices once retain
 - watch for changes in Devices/Dps and publish
 - publish tuyamqtt config retain on start/save/delete

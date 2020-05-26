@@ -1,0 +1,34 @@
+[
+    {
+      "model": "tuya.setting",
+      "pk": 1,
+      "fields": {
+        "name": "mqtt_host",
+        "value": "127.0.0.1"
+      }
+    },    
+    {
+      "model": "tuya.setting",
+      "pk": 2,
+      "fields": {
+        "name": "mqtt_port",
+        "value": "1883"
+      }
+    },    
+    {
+      "model": "tuya.setting",
+      "pk": 3,
+      "fields": {
+        "name": "mqtt_user",
+        "value": ""
+      }
+    } ,    
+    {
+      "model": "tuya.setting",
+      "pk": 4,
+      "fields": {
+        "name": "mqtt_pass",
+        "value": ""
+      }
+    }      
+  ]
