@@ -8,6 +8,10 @@ make
 make install
 ```
 
+run it
+--------------
+python3 web/manage.py runserver --noreload
+
 build docker
 -------
 ```
@@ -25,12 +29,18 @@ docker run -it --rm --name my-app mqttdevices
 
 todo
 ----
-- listen to discovery topics
-- publish ha discovery
-- publish tuyamqtt discovery
+- publish ha discovery on start/save/delete
+- watch connection MQTT and reconnect
 
 Changelog
 ---------
+- on_start publish devices once retain
+- watch for changes in Devices/Dps and publish
+- publish tuyamqtt config retain on start/save/delete
+- watch for changes in Setting and reconnect
+- signals setup
+- asyncio model loader
+- ~~listen to discovery topics~~
 - set db path
 - basic setup
 - user friendly admin panels

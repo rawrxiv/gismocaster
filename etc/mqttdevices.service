@@ -3,7 +3,7 @@ Description=MQTT Devices
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/python3 web/manage.py runserver
+ExecStart=/usr/bin/python3 web/manage.py runserver --noreload
 WorkingDirectory={path}
 StandardOutput=inherit
 StandardError=inherit
