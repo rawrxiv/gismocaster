@@ -24,7 +24,7 @@ class Device(models.Model):
     hass_discovery = models.BooleanField()
     tuya_discovery = models.BooleanField()
     def __str__(self):
-        return self.deviceid
+        return self.name
 
 class Dpstype(models.Model):
 
@@ -56,14 +56,6 @@ class Dpstype(models.Model):
 class Dps(models.Model):
     device = models.ForeignKey(Device, on_delete=models.CASCADE)
     key = models.IntegerField()
-    value = models.CharField(max_length=16)
-
-    # via_choices = [
-    #     ('tuya', 'Tuya'),
-    #     ('mqtt', 'MQTT'),
-    # ]
-
-    # via = models.CharField(max_length=8, choices=via_choices, default='tuya')
     dpstype = models.ForeignKey(Dpstype, on_delete=models.CASCADE)
     def __str__(self):
         return self.device.name+":"+str(self.key)
