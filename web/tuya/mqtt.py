@@ -46,7 +46,7 @@ def on_message(client, userdata, message):
                  message.retain, str(message.payload.decode("utf-8")))
     pass
 
-def _publish(topic:str, payload_dict:dict, clear:bool=False):
+def _publish(topic:str, payload_dict:dict, clear:bool=False, retain:bool=True):
 
     payload = json.dumps(payload_dict)
     if clear:
@@ -54,7 +54,7 @@ def _publish(topic:str, payload_dict:dict, clear:bool=False):
 
     try:
         logger.debug(f"_publish {topic} {payload}")
-        client.publish(topic, payload, retain=True)
+        client.publish(topic, payload, retain=retain)
     except Exception as ex:
         logger.exception(f"_publish {ex}", exc_info=False)
 
@@ -118,6 +118,7 @@ def publish_device(device, clear:bool=False):
 
     clear_tuya = clear
     if not device.tuya_discovery:
+        _publish(f"tuya/{device.deviceid}/kill", True, False, False)
         clear_tuya = True
     _publish(topic, payload_dict, clear_tuya)
 
@@ -129,6 +130,7 @@ def publish_device(device, clear:bool=False):
 
 def unpublish_device(device):
 
+    _publish(f"tuya/{device.deviceid}/kill", True, False, False)
     publish_device(device, True)
 
 
