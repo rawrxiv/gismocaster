@@ -96,6 +96,7 @@ todo
 
 Changelog
 ---------
+- send kill signal to tuyamqtt on delete
 - add dpstypes to fixtures (type, symbol, val_tpl)
 - publish ha discovery on start/save/delete
 - add setup.py
