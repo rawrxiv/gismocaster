@@ -1,7 +1,8 @@
 init:
 	pip3 install -r requirements.txt
 	python3 web/manage.py migrate	
-	python3 web/manage.py loaddata dpstype setting
+	python3 web/manage.py loaddata dpstype
+	python3 web/manage.py loaddata setting
 	python3 web/manage.py createsuperuser --username admin --password admin --email admin@admin.com
 
 install:
