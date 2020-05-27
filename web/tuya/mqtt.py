@@ -46,7 +46,7 @@ def on_message(client, userdata, message):
                  message.retain, str(message.payload.decode("utf-8")))
     pass
 
-def _publish(topic:str, payload_dict:dict, clear:bool=False, retain:bool=True):
+def _publish(topic: str, payload_dict: dict, clear: bool = False, retain: bool = True):
 
     payload = json.dumps(payload_dict)
     if clear:
@@ -63,7 +63,7 @@ def _filter_id(dictDirty: dict):
     return dict(filter(lambda elem: elem[0][-3:] != '_id' and elem[0] != 'id', dictDirty.items()))
 
 
-def publish_hass_dps(device: dict, dps: dict, clear:bool=False):
+def publish_hass_dps(device: dict, dps: dict, clear: bool = False):
 
     hass_id = f'{device["deviceid"]}_{dps["key"]}'
     topic = f'homeassistant/{dps["dpstype"]["discoverytype"]}/{hass_id}/config'
@@ -75,10 +75,10 @@ def publish_hass_dps(device: dict, dps: dict, clear:bool=False):
         "json_attributes_topic": "~attributes",
         "val_tpl": "{{value_json.POWER}}",
         "pl_off": models_dict['setting'].objects.get(name="ha_payload_off").value,
-        "pl_on":  models_dict['setting'].objects.get(name="ha_payload_on").value,
+        "pl_on": models_dict['setting'].objects.get(name="ha_payload_on").value,
         "avty_t": f'tuya/{device["deviceid"]}/availability',
         "pl_avail": models_dict['setting'].objects.get(name="ha_availability_online").value,
-        "pl_not_avail":  models_dict['setting'].objects.get(name="ha_availability_offline").value,
+        "pl_not_avail": models_dict['setting'].objects.get(name="ha_availability_offline").value,
         "uniq_id": hass_id,
         "device": {
             "identifiers": [device["deviceid"]],
@@ -93,13 +93,13 @@ def publish_hass_dps(device: dict, dps: dict, clear:bool=False):
     _publish(topic, payload_dict, clear)
 
 
-def publish_hass(device: dict, clear:bool=False):
-    
+def publish_hass(device: dict, clear: bool = False):
+
     for dps in device['dps']:
         publish_hass_dps(device, dps, clear)
 
 
-def publish_device(device, clear:bool=False):
+def publish_device(device, clear: bool = False):
 
     payload_dict = _filter_id(dict(models_dict['device'].objects.filter(
         deviceid__startswith=device.deviceid).values()[0]))
@@ -136,7 +136,7 @@ def unpublish_device(device):
 
 def publish_devices():
 
-    for device in models_dict['device'].objects.all():        
+    for device in models_dict['device'].objects.all():
         publish_device(device)
 
 
