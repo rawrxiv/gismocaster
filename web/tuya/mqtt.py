@@ -35,7 +35,6 @@ def on_connect(client, userdata, flags, rc):
     logger.info("MQTT Connection state: %s " % (connack_string(rc)))
     connected = True
     publish_devices()
-    # listen to homeassistant auto discovery, why?
     # client.subscribe("homeassistant/#")
 
 
@@ -159,7 +158,7 @@ def mqtt_connect():
         connected = False
 
 
-# Hacky construction to wait for apps to be fully loaded
+# HACK: Hacky construction to wait for apps to be fully loaded
 async def load_models(on_models: callable):
 
     while True:
