@@ -1,36 +1,133 @@
-[
-    {
-      "model": "tuya.dpstype",
-      "pk": 1,
-      "fields": {
-        "name": "Switch",
-        "valuetype": "bool",
-        "range_min": 0,
-        "range_max": 255,
-        "discoverytype": "switch"
-      }
-    },    
-    {
-      "model": "tuya.dpstype",
-      "pk": 2,
-      "fields": {
-        "name": "Light",
-        "valuetype": "bool",
-        "range_min": 0,
-        "range_max": 255,
-        "discoverytype": "light"
-      }
-    },    
-    {
-      "model": "tuya.dpstype",
-      "pk": 3,
-      "fields": {
-        "name": "Timer",
-        "valuetype": "int",
-        "range_min": 0,
-        "range_max": 255,
-        "discoverytype": "timer"
-      }
-    }      
-  ]
-  
+[{
+    "model": "tuya.dpstype",
+    "pk": 1,
+    "fields": {
+      "name": "Switch",
+      "valuetype": "bool",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "switch"
+    }
+  },
+  {
+    "model": "tuya.dpstype",
+    "pk": 2,
+    "fields": {
+      "name": "Light",
+      "valuetype": "bool",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "light"
+    }
+  },
+  {
+    "model": "tuya.dpstype",
+    "pk": 3,
+    "fields": {
+      "name": "Sensor",
+      "valuetype": "int",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "sensor"
+    }
+  },
+  {
+    "model": "tuya.dpstype",
+    "pk": 4,
+    "fields": {
+      "name": "Vacuum",
+      "valuetype": "int",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "vacuum"
+    }
+  },
+  {
+    "model": "tuya.dpstype",
+    "pk": 5,
+    "fields": {
+      "name": "Lock",
+      "valuetype": "int",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "lock"
+    }
+  },
+  {
+    "model": "tuya.dpstype",
+    "pk": 6,
+    "fields": {
+      "name": "HVAC",
+      "valuetype": "int",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "climate"
+    }
+  },
+  {
+    "model": "tuya.dpstype",
+    "pk": 7,
+    "fields": {
+      "name": "Fan",
+      "valuetype": "int",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "fan"
+    }
+  },
+  {
+    "model": "tuya.dpstype",
+    "pk": 8,
+    "fields": {
+      "name": "Device Automation",
+      "valuetype": "int",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "device_automation"
+    }
+  },
+  {
+    "model": "tuya.dpstype",
+    "pk": 9,
+    "fields": {
+      "name": "Cover",
+      "valuetype": "int",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "cover"
+    }
+  },
+  {
+    "model": "tuya.dpstype",
+    "pk": 10,
+    "fields": {
+      "name": "Camera",
+      "valuetype": "int",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "camera"
+    }
+  },
+  {
+    "model": "tuya.dpstype",
+    "pk": 11,
+    "fields": {
+      "name": "Binary Sensor",
+      "valuetype": "bool",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "binary_sensor"
+    }
+  },
+  {
+    "model": "tuya.dpstype",
+    "pk": 12,
+    "fields": {
+      "name": "Alarm Control Panel",
+      "valuetype": "int",
+      "range_min": 0,
+      "range_max": 255,
+      "discoverytype": "alarm_control_panel"
+    }
+  }
+]

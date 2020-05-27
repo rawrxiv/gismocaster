@@ -32,7 +32,7 @@ run it
 ```bash
 python3 web/manage.py runserver --noreload
 ```
-In your browser goto http://127.0.0.1:8000/admin
+In your browser go to http://127.0.0.1:8000/admin
 
 - user: admin
 - pass: admin
@@ -70,14 +70,12 @@ services:
   tuyamqtt:
     image: "tuyamqtt:latest"
     hostname: tuyamqtt 
-    container_name: tuyamqtt   
-    working_dir: /usr/src/app    
-    volumes:
-      - ./config:/usr/src/app/config    
-    command: "python -u main.py"
+    ...
     restart: always
     network_mode: host
   mqttdevices:
+    ports: 
+      - "8000:8000"
     image: "mqttdevices:latest"
     hostname: mqttdevices 
     container_name: mqttdevices
@@ -90,13 +88,14 @@ services:
 
 todo
 ----
-- add dpstypes to fixtures
 - watch connection MQTT and reconnect
 - check settings before connection attempt
+- review db model for HA config
 
 Changelog
 ---------
-- publish ha discovery on start/save/delete (basics)
+- add dpstypes to fixtures (type, symbol, val_tpl)
+- publish ha discovery on start/save/delete
 - add setup.py
 - clean up db fields
 - rename app to just 'tuya'
@@ -121,8 +120,11 @@ Changelog
 
 future development ideas
 --------
+- standard mappings for often used devices
+- store mapping (for reuse on )
 - scan the network for tuya devices / key extraction
-
+- simple frontend display state
+- add location
 
 db model
 ----------
@@ -156,8 +158,6 @@ dps
 ```
 device: int FK
 key:int
-value:str
-via:str (tuya|mqtt)
 dpstype:int FK
 ```
 
