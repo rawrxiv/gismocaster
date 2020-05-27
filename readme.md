@@ -1,7 +1,9 @@
 
-MQTT Devices (WIP)
+MQTT Devices 
 ==============
-User interface to configure autodiscovery for TuyaMQTT (and Home Assistant: WIP). 
+User interface to configure autodiscovery for TuyaMQTT and Home Assistant. 
+
+- basic light and switch types should work. 
 
 How does it work?
 ---------------
@@ -121,7 +123,7 @@ Changelog
 future development ideas
 --------
 - standard mappings for often used devices
-- store mapping (for reuse on )
+- store mapping (for reuse)
 - scan the network for tuya devices / key extraction
 - simple frontend display state
 - add location
