@@ -1,5 +1,5 @@
 
-MQTT Devices 
+GismoCaster 
 ==============
 User interface to configure autodiscovery for TuyaMQTT and Home Assistant. 
 
@@ -7,24 +7,24 @@ User interface to configure autodiscovery for TuyaMQTT and Home Assistant.
 
 How does it work?
 ---------------
-MQTT devices offers a webinterface in which you can add/alter/delete devices and setup the dps properties. This configuration is written to your MQTT broker as a retain message. 
+GismoCaster offers a webinterface in which you can add/alter/delete devices and setup the dps properties. This configuration is written to your MQTT broker as a retain message. 
 TuyaMQTT and Home Assistant are listening for these autodiscovery topics. 
 
 ```
  
-MQTT Devices -> MQTT broker -> Home Assistant sets up the device                          
+GismoCaster -> MQTT broker -> Home Assistant sets up the device                          
                             -> TuyaMQTT sets up the device
 ```
 
 Support
 ------------
-TuyaMQTT will add support for MQTT Devices in v1.1
+TuyaMQTT will add support for GismoCaster in v1.1
 
 install
 ------
 ```bash
-git clone https://github.com/TradeFace/mqttdevices.git
-cd mqttdevices
+git clone https://github.com/TradeFace/gismocaster.git
+cd gismocaster
 make
 make install
 ```
@@ -42,15 +42,15 @@ In your browser go to http://127.0.0.1:8000/admin
 build docker
 -------
 ```bash
-git clone https://github.com/TradeFace/mqttdevices.git
-cd mqttdevices
+git clone https://github.com/TradeFace/gismocaster.git
+cd gismocaster
 make docker
 ```
 
 Running Docker
 ------------
 ```bash
-docker run -it --rm --name my-app mqttdevices
+docker run -it --rm --name my-app gismocaster
 ```
 
 Running Docker Compose
@@ -75,12 +75,12 @@ services:
     ...
     restart: always
     network_mode: host
-  mqttdevices:
+  gismocaster:
     ports: 
       - "8000:8000"
-    image: "mqttdevices:latest"
-    hostname: mqttdevices 
-    container_name: mqttdevices
+    image: "gismocaster:latest"
+    hostname: gismocaster 
+    container_name: gismocaster
     working_dir: /usr/src/app    
     command: "python3 web/manage.py runserver --noreload"
     restart: always
@@ -93,6 +93,7 @@ todo
 - watch connection MQTT and reconnect
 - check settings before connection attempt
 - review db model for HA config
+- select preferred status command
 
 Changelog
 ---------

@@ -33,13 +33,13 @@ else:
 
 
 setup(
-    name='mqttdevices',
+    name='gismocaster',
     author=__author__,
     version=__version__,
-    description='Python interface to Tuya WiFi smart devices.',
+    description='Django webinterface for MQTT devices configuration.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/TradeFace/tuyadevices/',
+    url='https://github.com/TradeFace/gismocaster/',
     author_email='',
     license='Unlicense',
     classifiers=[
@@ -54,7 +54,7 @@ setup(
         'Topic :: Home Automation',
     ],
     keywords='home automation, mqtt, auto discovery',
-    packages=['mqttdevices'],
+    packages=['gismocaster'],
     platforms='any',
     install_requires=[      
           'Django',
