@@ -24,13 +24,17 @@ PyPi:
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-readme_filename = os.path.join(here, 'readme.md')
+readme_filename = os.path.join(here, 'README.md')
 if os.path.exists(readme_filename):
     with codecs.open(readme_filename, encoding='utf-8') as f:
         long_description = f.read()
 else:
     long_description = None
 
+def parse_requirements(filename):
+    """Load requirements from a pip requirements file."""
+    lineiter = (line.strip() for line in open(filename))
+    return [line for line in lineiter if line and not line.startswith("#")]
 
 setup(
     name='gismocaster',
@@ -56,9 +60,5 @@ setup(
     keywords='home automation, mqtt, auto discovery',
     packages=['gismocaster'],
     platforms='any',
-    install_requires=[      
-          'Django',
-          'django-createsuperuser',
-          'paho_mqtt'
-    ],
+    install_requires=parse_requirements("requirements.txt"),
 )
