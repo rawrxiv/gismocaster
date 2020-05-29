@@ -1,0 +1,27 @@
+Changelog
+---------
+_v1.0.0_
+- send kill signal to tuyamqtt on delete
+- add dpstypes to fixtures (type, symbol, val_tpl)
+- publish ha discovery on start/save/delete
+- add setup.py
+- clean up db fields
+- rename app to just 'tuya'
+- docker config example
+- docker expose port
+- setup auto release Pypi
+- fixture for settings
+- filter out id fields tuya/discovery
+- on_start publish devices once retain
+- watch for changes in Devices/Dps and publish
+- publish tuyamqtt config retain on start/save/delete
+- watch for changes in Setting and reconnect
+- signals setup
+- asyncio model loader
+- ~~listen to discovery topics~~
+- set db path
+- basic setup
+- user friendly admin panels
+    - device show related dps items
+    - option selects   
+- pre populate db for dpstypes
