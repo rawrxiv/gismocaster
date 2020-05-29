@@ -6,10 +6,11 @@ init:
 	python3 web/manage.py createsuperuser --username admin --password admin --email admin@admin.com
 
 install:
-	sudo sed  's|{path}|'${PWD}'|' ./etc/mqttdevices.service > /etc/systemd/system/mqttdevices.service
-	sudo cp ./etc/mqttdevices.conf /etc/mqttdevices.conf
-	sudo systemctl enable mqttdevices.service
-	sudo systemctl start mqttdevices.service
+	sudo sed  's|{path}|'${PWD}'|' ./etc/gismocaster.service > /etc/systemd/system/gismocaster.service
+	# sudo cp ./etc/gismocaster.conf /etc/gismocaster.conf
+	sudo systemctl enable gismocaster.service
+	sudo systemctl start gismocaster.service
 
 docker:	
-	docker build -t mqttdevices .
+	docker build -t gismocaster .
+
