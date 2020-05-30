@@ -88,8 +88,9 @@ Todo
 _v1.0.0_
 - watch connection MQTT and reconnect
 - dev env (Black, pylint, flake)
+- trigger reload tuyamqtt on change
 - dp properties for validation in tuyamqtt
-
+- fix name on device overview page HA
 
 Future development ideas
 --------

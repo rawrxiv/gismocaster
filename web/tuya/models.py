@@ -12,17 +12,6 @@ class Setting(models.Model):
         return self.name
 
 
-# class GismoModel(models.Model):
-
-#     name = models.CharField(max_length=64)
-#     description = models.TextField(max_length=1024, default="", null=True)
-
-    
-
-#     def __str__(self):
-#         return self.name
-
-
 class Gismo(models.Model):
 
     name = models.CharField(max_length=32)
