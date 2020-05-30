@@ -1,5 +1,6 @@
 from django.db import models
 from homeassistant.models import Component, Variable
+
 # Create your models here.
 class Setting(models.Model):
 
@@ -18,14 +19,14 @@ class GismoModel(models.Model):
     upload = models.FileField(default="", null=True)
 
     protocol_choices = [
-        ('3.1', '3.1'),
-        ('3.3', '3.3'),
+        ("3.1", "3.1"),
+        ("3.3", "3.3"),
     ]
-    protocol = models.CharField(max_length=16, choices=protocol_choices, default='3.3')
+    protocol = models.CharField(max_length=16, choices=protocol_choices, default="3.3")
 
     pref_cmd_choices = [
-        (10, 'Dp Query'),
-        (13, 'Control New'),
+        (10, "Dp Query"),
+        (13, "Control New"),
     ]
     pref_status_cmd = models.IntegerField(choices=pref_cmd_choices, default=10)
 
@@ -48,14 +49,16 @@ class Gismo(models.Model):
     def __str__(self):
         return self.name
 
+
 class Dp(models.Model):
 
-    key = models.IntegerField()    
+    key = models.IntegerField()
     gismo_model = models.ForeignKey(GismoModel, on_delete=models.CASCADE)
     ha_component = models.ForeignKey(Component, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{str(self.key)} ({self.gismo_model.name} / {self.ha_component.name})"
+
 
 class HAOverwrite(models.Model):
 

@@ -1,6 +1,7 @@
 Changelog
 ---------
 _v1.0.0_
+- review db model for HA config
 - select preferred status command
 - check settings before connection attempt
 - send kill signal to tuyamqtt on delete

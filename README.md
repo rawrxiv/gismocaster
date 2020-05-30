@@ -1,5 +1,5 @@
 
-<p align="center"><img alt="TuyaMQTT logo" src="https://github.com/TradeFace/tuyamqtt/blob/development/docs/gismocaster_logo.png?raw=true"></p>
+<p align="center"><img width="50%" alt="TuyaMQTT logo" src="https://github.com/TradeFace/tuyamqtt/blob/development/docs/gismocaster_logo.png?raw=true"></p>
 User interface to configure autodiscovery for TuyaMQTT and Home Assistant. 
 
 - basic light and switch types should work. 
@@ -87,8 +87,10 @@ Todo
 ----
 _v1.0.0_
 - watch connection MQTT and reconnect
-- review db model for HA config
 - dev env (Black, pylint, flake)
+- restore mqtt messages
+- dp properties for validation in tuyamqtt
+- fixture ha variables
 
 
 Future development ideas

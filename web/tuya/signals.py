@@ -8,7 +8,7 @@ from . import mqtt
 @receiver(post_save, sender=Gismo)
 def save_gismo(sender, instance, **kwargs):
     # print(type(instance), instance.name)
-    # mqtt.publish_gismo(instance)
+    mqtt.publish_gismo(instance)
     pass
 
 
