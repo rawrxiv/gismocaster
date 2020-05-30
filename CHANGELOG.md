@@ -1,6 +1,8 @@
 Changelog
 ---------
 _v1.0.0_
+- fixture ha variables
+- restore mqtt messages
 - review db model for HA config
 - select preferred status command
 - check settings before connection attempt

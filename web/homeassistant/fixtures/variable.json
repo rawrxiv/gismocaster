@@ -569,7 +569,7 @@
     "model": "homeassistant.variable",
     "pk": 64,
     "fields": {
-        "default_value": "",
+        "default_value": "mdi:light-switch",
         "abbreviation": "ic",
         "name": "icon",
         "type_value": "string"
@@ -596,7 +596,7 @@
     "model": "homeassistant.variable",
     "pk": 67,
     "fields": {
-        "default_value": "~json_attributes",
+        "default_value": "~attributes",
         "abbreviation": "json_attr_t",
         "name": "json_attributes_topic",
         "type_value": "string"
@@ -1055,7 +1055,7 @@
     "model": "homeassistant.variable",
     "pk": 118,
     "fields": {
-        "default_value": "false",
+        "default_value": "",
         "abbreviation": "ret",
         "name": "retain",
         "type_value": "bool"

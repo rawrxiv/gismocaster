@@ -88,9 +88,7 @@ Todo
 _v1.0.0_
 - watch connection MQTT and reconnect
 - dev env (Black, pylint, flake)
-- restore mqtt messages
 - dp properties for validation in tuyamqtt
-- fixture ha variables
 
 
 Future development ideas
@@ -99,5 +97,4 @@ Future development ideas
 - store mapping (for reuse)
 - scan the network for tuya devices / key extraction
 - simple frontend display state
-- add location
 
