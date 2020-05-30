@@ -1,6 +1,8 @@
 Changelog
 ---------
 _v1.0.0_
+- select preferred status command
+- check settings before connection attempt
 - send kill signal to tuyamqtt on delete
 - add dpstypes to fixtures (type, symbol, val_tpl)
 - publish ha discovery on start/save/delete

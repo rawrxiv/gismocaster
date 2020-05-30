@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'tuya.apps.TuyaConfig',
+    'homeassistant.apps.HomeassistantConfig',
     "django_createsuperuser",
     'django.contrib.admin',
     'django.contrib.auth',

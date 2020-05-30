@@ -1,0 +1,97 @@
+[{
+    "model": "homeassistant.dpstype",
+    "pk": 1,
+    "fields": {
+      "name": "Switch",
+      "technical_name": "switch"
+    }
+  },
+  {
+    "model": "homeassistant.dpstype",
+    "pk": 2,
+    "fields": {
+      "name": "Light",
+      "technical_name": "light"
+    }
+  },
+  {
+    "model": "homeassistant.dpstype",
+    "pk": 3,
+    "fields": {
+      "name": "Sensor",
+      "technical_name": "sensor"
+    }
+  },
+  {
+    "model": "homeassistant.dpstype",
+    "pk": 4,
+    "fields": {
+      "name": "Vacuum",
+      "technical_name": "vacuum"
+    }
+  },
+  {
+    "model": "homeassistant.dpstype",
+    "pk": 5,
+    "fields": {
+      "name": "Lock",
+      "technical_name": "lock"
+    }
+  },
+  {
+    "model": "homeassistant.dpstype",
+    "pk": 6,
+    "fields": {
+      "name": "HVAC",
+      "technical_name": "climate"
+    }
+  },
+  {
+    "model": "homeassistant.dpstype",
+    "pk": 7,
+    "fields": {
+      "name": "Fan",
+      "technical_name": "fan"
+    }
+  },
+  {
+    "model": "homeassistant.dpstype",
+    "pk": 8,
+    "fields": {
+      "name": "Device Automation",
+      "technical_name": "device_automation"
+    }
+  },
+  {
+    "model": "homeassistant.dpstype",
+    "pk": 9,
+    "fields": {
+      "name": "Cover",
+      "technical_name": "cover"
+    }
+  },
+  {
+    "model": "homeassistant.dpstype",
+    "pk": 10,
+    "fields": {
+      "name": "Camera",
+      "technical_name": "camera"
+    }
+  },
+  {
+    "model": "homeassistant.dpstype",
+    "pk": 11,
+    "fields": {
+      "name": "Binary Sensor",
+      "technical_name": "binary_sensor"
+    }
+  },
+  {
+    "model": "homeassistant.dpstype",
+    "pk": 12,
+    "fields": {
+      "name": "Alarm Control Panel",
+      "technical_name": "alarm_control_panel"
+    }
+  }
+]
