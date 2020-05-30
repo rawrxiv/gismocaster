@@ -1,97 +1,130 @@
-[{
-    "model": "homeassistant.dpstype",
-    "pk": 1,
-    "fields": {
-      "name": "Switch",
-      "technical_name": "switch"
-    }
+[
+  {
+      "model": "homeassistant.component",
+      "pk": 1,
+      "fields": {
+          "name": "Switch",
+          "technical_name": "switch",
+          "variables": [
+              7,
+              30,
+              36,
+              64,
+              67,
+              68,
+              77,
+              86,
+              96,
+              98,
+              100,
+              118,
+              136,
+              137,
+              142,
+              172,
+              180,
+              181
+          ]
+      }
   },
   {
-    "model": "homeassistant.dpstype",
-    "pk": 2,
-    "fields": {
-      "name": "Light",
-      "technical_name": "light"
-    }
+      "model": "homeassistant.component",
+      "pk": 2,
+      "fields": {
+          "name": "Light",
+          "technical_name": "light",
+          "variables": []
+      }
   },
   {
-    "model": "homeassistant.dpstype",
-    "pk": 3,
-    "fields": {
-      "name": "Sensor",
-      "technical_name": "sensor"
-    }
+      "model": "homeassistant.component",
+      "pk": 3,
+      "fields": {
+          "name": "Sensor",
+          "technical_name": "sensor",
+          "variables": []
+      }
   },
   {
-    "model": "homeassistant.dpstype",
-    "pk": 4,
-    "fields": {
-      "name": "Vacuum",
-      "technical_name": "vacuum"
-    }
+      "model": "homeassistant.component",
+      "pk": 4,
+      "fields": {
+          "name": "Vacuum",
+          "technical_name": "vacuum",
+          "variables": []
+      }
   },
   {
-    "model": "homeassistant.dpstype",
-    "pk": 5,
-    "fields": {
-      "name": "Lock",
-      "technical_name": "lock"
-    }
+      "model": "homeassistant.component",
+      "pk": 5,
+      "fields": {
+          "name": "Lock",
+          "technical_name": "lock",
+          "variables": []
+      }
   },
   {
-    "model": "homeassistant.dpstype",
-    "pk": 6,
-    "fields": {
-      "name": "HVAC",
-      "technical_name": "climate"
-    }
+      "model": "homeassistant.component",
+      "pk": 6,
+      "fields": {
+          "name": "HVAC",
+          "technical_name": "climate",
+          "variables": []
+      }
   },
   {
-    "model": "homeassistant.dpstype",
-    "pk": 7,
-    "fields": {
-      "name": "Fan",
-      "technical_name": "fan"
-    }
+      "model": "homeassistant.component",
+      "pk": 7,
+      "fields": {
+          "name": "Fan",
+          "technical_name": "fan",
+          "variables": []
+      }
   },
   {
-    "model": "homeassistant.dpstype",
-    "pk": 8,
-    "fields": {
-      "name": "Device Automation",
-      "technical_name": "device_automation"
-    }
+      "model": "homeassistant.component",
+      "pk": 8,
+      "fields": {
+          "name": "Device Automation",
+          "technical_name": "device_automation",
+          "variables": []
+      }
   },
   {
-    "model": "homeassistant.dpstype",
-    "pk": 9,
-    "fields": {
-      "name": "Cover",
-      "technical_name": "cover"
-    }
+      "model": "homeassistant.component",
+      "pk": 9,
+      "fields": {
+          "name": "Cover",
+          "technical_name": "cover",
+          "variables": []
+      }
   },
   {
-    "model": "homeassistant.dpstype",
-    "pk": 10,
-    "fields": {
-      "name": "Camera",
-      "technical_name": "camera"
-    }
+      "model": "homeassistant.component",
+      "pk": 10,
+      "fields": {
+          "name": "Camera",
+          "technical_name": "camera",
+          "variables": []
+      }
   },
   {
-    "model": "homeassistant.dpstype",
-    "pk": 11,
-    "fields": {
-      "name": "Binary Sensor",
-      "technical_name": "binary_sensor"
-    }
+      "model": "homeassistant.component",
+      "pk": 11,
+      "fields": {
+          "name": "Binary Sensor",
+          "technical_name": "binary_sensor",
+          "variables": []
+      }
   },
   {
-    "model": "homeassistant.dpstype",
-    "pk": 12,
-    "fields": {
-      "name": "Alarm Control Panel",
-      "technical_name": "alarm_control_panel"
-    }
+      "model": "homeassistant.component",
+      "pk": 12,
+      "fields": {
+          "name": "Alarm Control Panel",
+          "technical_name": "alarm_control_panel",
+          "variables": []
+      }
   }
-]
+  ]
+  
