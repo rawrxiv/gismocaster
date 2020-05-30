@@ -7,7 +7,7 @@ class Variable(models.Model):
 
     name = models.CharField(max_length=64)  # icon
     abbreviation = models.CharField(max_length=32)  # ic
-    default_value = models.CharField(max_length=256)  # mdi:light-switch
+    default_value = models.CharField(max_length=256, null=True, blank=True)  # mdi:light-switch
 
     type_value_choices = [
         ("string", "String"),

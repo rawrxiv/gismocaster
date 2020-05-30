@@ -47,7 +47,6 @@ def on_message(client, userdata, message):
         message.retain,
         str(message.payload.decode("utf-8")),
     )
-    pass
 
 
 def _publish(topic: str, payload_dict: dict, clear: bool = False, retain: bool = True):
@@ -55,7 +54,6 @@ def _publish(topic: str, payload_dict: dict, clear: bool = False, retain: bool =
     payload = json.dumps(payload_dict)
     if clear:
         payload = None
-
     try:
         logger.debug(f"_publish {topic} {payload}")
         client.publish(topic, payload, retain=retain)
@@ -83,7 +81,7 @@ def _cast_type(type_value: str, value: str):
     return value
 
 
-def publish_hass_dp(gismo: dict, gismo_model: dict, dp: dict, clear: bool = False):
+def publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
     """Send retain message for Home Assistant config to broker."""
 
     # get the gismo
@@ -97,6 +95,8 @@ def publish_hass_dp(gismo: dict, gismo_model: dict, dp: dict, clear: bool = Fals
     payload_dict = {}
 
     for item in ha_vars_list:
+        if not item["default_value"]:
+            continue
         payload_dict[item["abbreviation"]] = _cast_type(
             item["type_value"], item["default_value"]
         )
@@ -113,15 +113,15 @@ def publish_hass_dp(gismo: dict, gismo_model: dict, dp: dict, clear: bool = Fals
     topic = f"homeassistant/{ha_component.technical_name}/{hass_id}/config"
 
     if "name" in payload_dict:
-        payload_dict["name"] = gismo_dict["name"]
+        payload_dict["name"] = dp["name"]
 
     payload_dict["uniq_id"] = (hass_id,)
     if "dev" in payload_dict:
         payload_dict["dev"] = (
             {
                 "ids": [gismo_dict["deviceid"]],
-                "name": f"{gismo_dict['name']}",
-                "mdl": f"Tuya ({gismo_model['name']})",
+                "name": f"{dp['name']}",
+                "mdl": f"Tuya ({gismo_dict['name']})",
                 "sw": "1.0.0",
                 "mf": "GismoCaster",
             },
@@ -138,18 +138,14 @@ def publish_hass_dp(gismo: dict, gismo_model: dict, dp: dict, clear: bool = Fals
 def publish_hass(gismo, clear: bool = False):
     """Send retain messages for Home Assistant config to broker."""
 
-    # get the gismo_model
-    gismo_model = dict(
-        models_dict["gismo_model"].objects.filter(id=gismo.gismo_model.id).values()[0]
-    )
 
     # get the dps
     dps = list(
-        models_dict["dp"].objects.filter(gismo_model_id=gismo.gismo_model.id).values()
+        models_dict["dp"].objects.filter(gismo_id=gismo.id).values()
     )
 
     for dp in dps:
-        publish_hass_dp(gismo, gismo_model, dp, clear)
+        publish_hass_dp(gismo, dp, clear)
 
 
 def publish_gismo(gismo, clear: bool = False):
@@ -159,15 +155,10 @@ def publish_gismo(gismo, clear: bool = False):
     payload_dict = _filter_id(
         dict(models_dict["gismo"].objects.filter(deviceid=gismo.deviceid).values()[0])
     )
-    # get the gismo_model
-    gismo_model = dict(
-        models_dict["gismo_model"].objects.filter(id=gismo.gismo_model.id).values()[0]
-    )
-    payload_dict["protocol"] = gismo_model["protocol"]
-    payload_dict["pref_status_cmd"] = gismo_model["pref_status_cmd"]
+   
 
     # get the dps
-    dps = models_dict["dp"].objects.filter(gismo_model_id=gismo.gismo_model.id)
+    dps = models_dict["dp"].objects.filter(gismo_id=gismo.id)
 
     payload_dict["dps"] = list(map(_filter_id, list(dps.values())))
 
@@ -234,7 +225,7 @@ async def load_models(on_models: callable):
     """Load database models when available."""
     while True:
         try:
-            from .models import Setting, Gismo, Dp, GismoModel, HAOverwrite
+            from .models import Setting, Gismo, Dp,  HAOverwrite
             from homeassistant.models import Component, Variable
 
             on_models(
@@ -242,7 +233,6 @@ async def load_models(on_models: callable):
                     "setting": Setting,
                     "gismo": Gismo,
                     "dp": Dp,
-                    "gismo_model": GismoModel,
                     "ha_overwrite": HAOverwrite,
                     "ha_component": Component,
                     "ha_variables": Variable,
