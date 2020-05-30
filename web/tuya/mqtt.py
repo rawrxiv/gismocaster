@@ -78,7 +78,7 @@ def _cast_type(type_value: str, value: str):
         return int(value)
     if type_value == "float":
         return float(value)
-    return value
+    return value 
 
 
 def publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
@@ -115,17 +115,16 @@ def publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
     if "name" in payload_dict:
         payload_dict["name"] = dp["name"]
 
-    payload_dict["uniq_id"] = (hass_id,)
-    if "dev" in payload_dict:
-        payload_dict["dev"] = (
-            {
-                "ids": [gismo_dict["deviceid"]],
-                "name": f"{dp['name']}",
-                "mdl": f"Tuya ({gismo_dict['name']})",
-                "sw": "1.0.0",
-                "mf": "GismoCaster",
-            },
-        )
+    payload_dict["uniq_id"] = hass_id
+
+    payload_dict["device"] =  {
+        "identifiers": [gismo_dict["deviceid"]],
+        "name": f"{dp['name']}",
+        "model": f"Tuya ({gismo_dict['name']})",
+        "sw_version": "1.0.0",
+        "manufacturer": "GismoCaster",
+    }
+
     payload_dict["~"] = f'tuya/{gismo_dict["deviceid"]}/{dp["key"]}/'
     if "avty_t" in payload_dict:
         payload_dict["avty_t"] = payload_dict["avty_t"].replace(
