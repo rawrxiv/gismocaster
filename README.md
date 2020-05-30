@@ -87,9 +87,7 @@ Todo
 ----
 _v1.0.0_
 - watch connection MQTT and reconnect
-- check settings before connection attempt
 - review db model for HA config
-- select preferred status command
 - dev env (Black, pylint, flake)
 
 

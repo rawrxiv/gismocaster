@@ -1,5 +1,5 @@
 from django.db import models
-
+from homeassistant.models import Component, Variable
 # Create your models here.
 class Setting(models.Model):
 
@@ -9,59 +9,59 @@ class Setting(models.Model):
     def __str__(self):
         return self.name
 
-class Device(models.Model):
 
-    name = models.CharField(max_length=32)
+class GismoModel(models.Model):
+
+    name = models.CharField(max_length=64)
+    description = models.TextField(max_length=1024, default="", null=True)
+    image = models.URLField(default="", null=True)
+    upload = models.FileField(default="", null=True)
 
     protocol_choices = [
         ('3.1', '3.1'),
         ('3.3', '3.3'),
     ]
-
     protocol = models.CharField(max_length=16, choices=protocol_choices, default='3.3')
+
+    pref_cmd_choices = [
+        (10, 'Dp Query'),
+        (13, 'Control New'),
+    ]
+    pref_status_cmd = models.IntegerField(choices=pref_cmd_choices, default=10)
+
+    def __str__(self):
+        return self.name
+
+
+class Gismo(models.Model):
+
+    name = models.CharField(max_length=32)
+    gismo_model = models.ForeignKey(GismoModel, on_delete=models.CASCADE)
+
     deviceid = models.CharField(max_length=64)
     localkey = models.CharField(max_length=64)
     ip = models.GenericIPAddressField()
-    hass_discovery = models.BooleanField()
+
+    ha_discovery = models.BooleanField()
     tuya_discovery = models.BooleanField()
 
     def __str__(self):
         return self.name
 
-class Dpstype(models.Model):
+class Dp(models.Model):
 
-    name = models.CharField(max_length=64)
-
-    valuetype_choices = [
-        ('bool', 'Boolean'),
-        ('int', 'Integer'),
-        ('str', 'String')
-    ]
-    valuetype = models.CharField(
-        max_length=16, choices=valuetype_choices, default='bool')
-    range_min = models.IntegerField(default=0)
-    range_max = models.IntegerField(default=255)
-
-    discoverytype_choices = [
-        ('light', 'Light'),
-        ('switch', 'Switch'),
-        ('sensor', 'Sensor'),
-        ('binary_sensor', 'Binary Sensor'),
-    ]
-    discoverytype = models.CharField(
-        max_length=16,
-        choices=discoverytype_choices,
-        default='light'
-    )
+    key = models.IntegerField()    
+    gismo_model = models.ForeignKey(GismoModel, on_delete=models.CASCADE)
+    ha_component = models.ForeignKey(Component, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return f"{str(self.key)} ({self.gismo_model.name} / {self.ha_component.name})"
 
-class Dps(models.Model):
-    device = models.ForeignKey(Device, on_delete=models.CASCADE)
-    key = models.IntegerField()
-    dpstype = models.ForeignKey(Dpstype, on_delete=models.CASCADE)
+class HAOverwrite(models.Model):
+
+    dp = models.ForeignKey(Dp, on_delete=models.CASCADE)
+    variable = models.ForeignKey(Variable, on_delete=models.CASCADE)
+    value = models.CharField(max_length=256)
 
     def __str__(self):
-        return self.device.name+":"+str(self.key)
-
+        return self.value
