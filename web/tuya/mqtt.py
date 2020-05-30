@@ -72,68 +72,104 @@ def _filter_id(dictDirty: dict):
     )
 
 
-def publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
+def _cast_type(type_value: str, value: str):
+
+    if type_value == "bool":
+        return bool(value)
+    if type_value == "int":
+        return int(value)
+    if type_value == "float":
+        return float(value)
+    return value
+
+
+def publish_hass_dp(gismo: dict, gismo_model: dict, dp: dict, clear: bool = False):
     """Send retain message for Home Assistant config to broker."""
-    hass_id = f'{gismo["deviceid"]}_{dp["key"]}'
-    # topic = f'homeassistant/{dp["dptype"]["discoverytype"]}/{hass_id}/config'
 
-    payload_dict = {
-        "name": gismo["name"],
-        "cmd_t": "~command",
-        "stat_t": "~state",
-        "json_attributes_topic": "~attributes",
-        "val_tpl": "{{value_json.POWER}}",
-        "pl_off": models_dict["setting"].objects.get(name="ha_payload_off").value,
-        "pl_on": models_dict["setting"].objects.get(name="ha_payload_on").value,
-        "avty_t": f'tuya/{gismo["deviceid"]}/availability',
-        "pl_avail": models_dict["setting"]
-        .objects.get(name="ha_availability_online")
-        .value,
-        "pl_not_avail": models_dict["setting"]
-        .objects.get(name="ha_availability_offline")
-        .value,
-        "uniq_id": hass_id,
-        "device": {
-            "identifiers": [gismo["deviceid"]],
-            "name": f"{gismo['name']}",
-            "model": "TuyaMQTT",
-            "sw_version": "1.0.0",
-            "manufacturer": "GismoCaster",
-        },
-        "~": f'tuya/{gismo["deviceid"]}/{dp["key"]}/',
-    }
+    # get the gismo
+    gismo_dict = dict(
+        models_dict["gismo"].objects.filter(deviceid=gismo.deviceid).values()[0]
+    )
 
-    # _publish(topic, payload_dict, clear)
+    # get defaults for ha component
+    ha_component = models_dict["ha_component"].objects.get(id=dp["ha_component_id"])
+    ha_vars_list = list(ha_component.variables.all().values())
+    payload_dict = {}
+
+    for item in ha_vars_list:
+        payload_dict[item["abbreviation"]] = _cast_type(
+            item["type_value"], item["default_value"]
+        )
+
+    # get ha overwrites
+    ha_overwrites = models_dict["ha_overwrite"].objects.filter(dp_id=dp["id"]).all()
+    for ha_overwrite in ha_overwrites:
+        payload_dict[ha_overwrite.variable.abbreviation] = _cast_type(
+            ha_overwrite.variable.type_value, ha_overwrite.value
+        )
+
+    hass_id = f'{gismo_dict["deviceid"]}_{dp["key"]}'
+
+    topic = f"homeassistant/{ha_component.technical_name}/{hass_id}/config"
+
+    if "name" in payload_dict:
+        payload_dict["name"] = gismo_dict["name"]
+
+    payload_dict["uniq_id"] = (hass_id,)
+    if "dev" in payload_dict:
+        payload_dict["dev"] = (
+            {
+                "ids": [gismo_dict["deviceid"]],
+                "name": f"{gismo_dict['name']}",
+                "mdl": f"Tuya ({gismo_model['name']})",
+                "sw": "1.0.0",
+                "mf": "GismoCaster",
+            },
+        )
+    payload_dict["~"] = f'tuya/{gismo_dict["deviceid"]}/{dp["key"]}/'
+    if "avty_t" in payload_dict:
+        payload_dict["avty_t"] = payload_dict["avty_t"].replace(
+            "~", f'tuya/{gismo_dict["deviceid"]}/'
+        )
+
+    _publish(topic, payload_dict, clear)
 
 
-def publish_hass(gismo: dict, clear: bool = False):
+def publish_hass(gismo, clear: bool = False):
     """Send retain messages for Home Assistant config to broker."""
-    for dp in gismo["dp"]:
-        publish_hass_dp(gismo, dp, clear)
+
+    # get the gismo_model
+    gismo_model = dict(
+        models_dict["gismo_model"].objects.filter(id=gismo.gismo_model.id).values()[0]
+    )
+
+    # get the dps
+    dps = list(
+        models_dict["dp"].objects.filter(gismo_model_id=gismo.gismo_model.id).values()
+    )
+
+    for dp in dps:
+        publish_hass_dp(gismo, gismo_model, dp, clear)
 
 
 def publish_gismo(gismo, clear: bool = False):
     """Send retain message for TuyaMQTT config to broker."""
+
+    # get the device
     payload_dict = _filter_id(
-        dict(
-            models_dict["gismo"]
-            .objects.filter(deviceid__startswith=gismo.deviceid)
-            .values()[0]
-        )
+        dict(models_dict["gismo"].objects.filter(deviceid=gismo.deviceid).values()[0])
     )
+    # get the gismo_model
+    gismo_model = dict(
+        models_dict["gismo_model"].objects.filter(id=gismo.gismo_model.id).values()[0]
+    )
+    payload_dict["protocol"] = gismo_model["protocol"]
+    payload_dict["pref_status_cmd"] = gismo_model["pref_status_cmd"]
 
-    dps = gismo.dp_set.all()
-    dp_list = list(dps.values())
+    # get the dps
+    dps = models_dict["dp"].objects.filter(gismo_model_id=gismo.gismo_model.id)
 
-    payload_dict["dp"] = []
-    for dp in dp_list:
-        # dptype = (
-        #     models_dict["dptype"]
-        #     .objects.filter(id__startswith=dp["dptype_id"])
-        #     .values()[0]
-        # )
-        # dp["dptype"] = _filter_id(dict(dptype))
-        payload_dict["dps"].append(_filter_id(dp))
+    payload_dict["dps"] = list(map(_filter_id, list(dps.values())))
 
     topic = f"tuya/discovery/{gismo.deviceid}"
 
@@ -144,9 +180,9 @@ def publish_gismo(gismo, clear: bool = False):
     _publish(topic, payload_dict, clear_tuya)
 
     clear_hass = clear
-    if not gismo.hass_discovery:
+    if not gismo.ha_discovery:
         clear_hass = True
-    publish_hass(payload_dict, clear_hass)
+    publish_hass(gismo, clear_hass)
 
 
 def unpublish_gismo(gismo):
@@ -199,9 +235,18 @@ async def load_models(on_models: callable):
     while True:
         try:
             from .models import Setting, Gismo, Dp, GismoModel, HAOverwrite
+            from homeassistant.models import Component, Variable
 
             on_models(
-                {"setting": Setting, "gismo": Gismo, "dp": Dp, "gismomodel": GismoModel, "HAOverwrite":HAOverwrite}
+                {
+                    "setting": Setting,
+                    "gismo": Gismo,
+                    "dp": Dp,
+                    "gismo_model": GismoModel,
+                    "ha_overwrite": HAOverwrite,
+                    "ha_component": Component,
+                    "ha_variables": Variable,
+                }
             )
             return
         except Exception:
