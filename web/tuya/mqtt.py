@@ -105,8 +105,11 @@ def _set_device(payload_dict: dict, gismo_dict: dict, name: str):
 
 def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
     """Send retain message for Home Assistant config to broker."""
-    # get the gismo
-    gismo_dict = dict(Gismo.objects.filter(id=gismo.id).values()[0])
+    # get the device
+    gismo_set = Gismo.objects.filter(id=gismo.id).values()
+    if len(gismo_set) == 0:
+        return
+    gismo_dict = dict(gismo_set[0])
 
     # get defaults for ha component
     ha_component = Component.objects.get(id=dp["ha_component_id"])
@@ -173,7 +176,10 @@ def publish_gismo(gismo, clear: bool = False):
         _mqtt_connect()
 
     # get the device
-    payload_dict = _filter_id(dict(Gismo.objects.filter(id=gismo.id).values()[0]))
+    gismo_set = Gismo.objects.filter(id=gismo.id).values()
+    if len(gismo_set) == 0:
+        return
+    payload_dict = _filter_id(dict(gismo_set[0]))
 
     # get the dps
     dps = Dp.objects.filter(gismo_id=gismo.id)
