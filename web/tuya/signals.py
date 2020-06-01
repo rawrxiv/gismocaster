@@ -4,9 +4,12 @@ from django.db.models.signals import post_save, post_delete, pre_save, pre_delet
 from django.dispatch import receiver
 from . import mqtt
 
+@receiver(pre_save, sender=Gismo)
+def pre_save_gismo(sender, instance, **kwargs):    
+    mqtt.unpublish_gismo(instance)
 
 @receiver(post_save, sender=Gismo)
-def save_gismo(sender, instance, **kwargs):
+def save_gismo(sender, instance, **kwargs):    
     mqtt.publish_gismo(instance)
 
 @receiver(pre_delete, sender=Gismo)

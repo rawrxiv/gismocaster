@@ -1,6 +1,6 @@
 
 <p align="center"><img width="50%" alt="TuyaMQTT logo" src="https://github.com/TradeFace/tuyamqtt/blob/development/docs/gismocaster_logo.png?raw=true"></p>
-User interface to configure autodiscovery for TuyaMQTT and Home Assistant. 
+User interface to configure set up discovery messages for TuyaMQTT and Home Assistant. 
 
 - basic light and switch types should work. 
 
@@ -15,87 +15,10 @@ Support
 ------------
 TuyaMQTT will add support for GismoCaster in v1.1
 
-Install
-------
-```bash
-git clone https://github.com/TradeFace/gismocaster.git
-cd gismocaster
-make
-make install
-```
 
-Run it
---------------
-```bash
-python3 web/manage.py runserver --noreload
-```
-In your browser go to http://127.0.0.1:8000/admin
-
-- user: admin
-- pass: admin
-
-Build docker
--------
-```bash
-git clone https://github.com/TradeFace/gismocaster.git
-cd gismocaster
-make docker
-```
-
-Running Docker
-------------
-```bash
-docker run -it --rm --name my-app gismocaster
-```
-
-Running Docker Compose
+Docs
 -------------
-```docker
-version: '3'
-services:
-  homeassistant:
-    ports: 
-      - "8123:8123"
-    ...
-    restart: always
-    network_mode: host
-  mosquitto:
-    image: eclipse-mosquitto
-    ...
-    restart: always
-    network_mode: host
-  tuyamqtt:
-    image: "tuyamqtt:latest"
-    hostname: tuyamqtt 
-    ...
-    restart: always
-    network_mode: host
-  gismocaster:
-    ports: 
-      - "8000:8000"
-    image: "gismocaster:latest"
-    hostname: gismocaster 
-    container_name: gismocaster
-    working_dir: /usr/src/app    
-    command: "python3 web/manage.py runserver --noreload"
-    restart: always
-    network_mode: host
-```
+https://github.com/TradeFace/GismoCaster/wiki
 
 
-Todo
-----
-_v1.0.0_
-- watch connection MQTT and reconnect
-- dev env (Black, pylint, flake)
-- trigger reload tuyamqtt on change
-- dp properties for validation in tuyamqtt
-- fix name on device overview page HA
-
-Future development ideas
---------
-- standard mappings for often used devices
-- store mapping (for reuse)
-- scan the network for tuya devices / key extraction
-- simple frontend display state
 
