@@ -17,14 +17,17 @@ class DpAdmin(admin.ModelAdmin):
     ]
     list_display = ("key", "name", "ha_component")
 
+
 class DpInline(admin.StackedInline):
     model = Dp
+
 
 class GismoAdmin(admin.ModelAdmin):
     list_display = ("name", "ip", "protocol", "ha_discovery", "tuya_discovery")
     inlines = [
         DpInline,
     ]
+
 
 # class GismoModelAdmin(admin.ModelAdmin):GismoModel,
 #     inlines = [
