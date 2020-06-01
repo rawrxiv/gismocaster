@@ -7,7 +7,6 @@ class Setting(models.Model):
     name = models.CharField(max_length=64)
     value = models.CharField(max_length=256)
 
-
     def __str__(self):
         return self.name
 
@@ -15,7 +14,6 @@ class Setting(models.Model):
 class Gismo(models.Model):
 
     name = models.CharField(max_length=32)
-
 
     deviceid = models.CharField(max_length=64)
     localkey = models.CharField(max_length=64)
@@ -56,8 +54,12 @@ class Dp(models.Model):
     type_value = models.CharField(
         choices=type_value_choices, default="bool", max_length=16
     )
-    minimal = models.FloatField(default=0, help_text="for string length; for numerics min. value")
-    maximal = models.FloatField(default=255, help_text="for string length; for numerics max. value") 
+    minimal = models.FloatField(
+        default=0, help_text="for string length; for numerics min. value"
+    )
+    maximal = models.FloatField(
+        default=255, help_text="for string length; for numerics max. value"
+    )
 
     def __str__(self):
         return f"{str(self.key)} ({self.gismo.name} / {self.ha_component.name})"

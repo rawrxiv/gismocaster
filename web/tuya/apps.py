@@ -10,4 +10,5 @@ class TuyaConfig(AppConfig):
         # mqtt.init()
         from . import mqtt
         from . import signals
+
         mqtt.init()

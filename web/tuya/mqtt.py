@@ -2,20 +2,18 @@
 import logging
 import json
 import paho.mqtt.client as mqtt
-from homeassistant.models import Component, Variable
+from homeassistant.models import Component
 from .models import Setting, Gismo, Dp, HAOverwrite
 
 
-loglevel = logging.DEBUG
-logger = logging.getLogger(__name__)
+LOGLEVEL = logging.DEBUG
+LOGGER = logging.getLOGGER(__name__)
 logging.basicConfig(
-    format="%(asctime)s %(levelname)-8s [%(name)s] %(message)s", level=loglevel
+    format="%(asctime)s %(levelname)-8s [%(name)s] %(message)s", level=LOGLEVEL
 )
 
-client = None
-connected = None
-models_loaded = False
-
+MQTT_CLIENT = None
+MQTT_CONNECTED = None
 
 
 def _connack_string(state):
@@ -33,18 +31,18 @@ def _connack_string(state):
 
 # TODO what are the types of these func params
 def on_connect(client, userdata, flags, rc):
-
-    global connected
-    logger.info("MQTT Connection state: %s " % (_connack_string(rc)))
-    connected = True
+    """MQTT connection callback."""
+    global MQTT_CONNECTED
+    LOGGER.info("MQTT Connection state: %s " % (_connack_string(rc)))
+    MQTT_CONNECTED = True
     publish_gismos()
-    # client.subscribe("homeassistant/#")
+    # MQTT_CLIENT.subscribe("homeassistant/#")
 
 
 # TODO what are the types of these func params
 # def on_message(client, userdata, message):
 
-#     logger.debug(
+#     LOGGER.debug(
 #         "topic %s retained %s message received %s",
 #         message.topic,
 #         message.retain,
@@ -58,10 +56,10 @@ def _publish(topic: str, payload_dict: dict, clear: bool = False, retain: bool =
     if clear:
         payload = None
     try:
-        logger.debug(f"_publish {topic} {payload}")
-        client.publish(topic, payload, retain=retain)
+        LOGGER.debug(f"_publish {topic} {payload}")
+        MQTT_CLIENT.publish(topic, payload, retain=retain)
     except Exception as ex:
-        logger.exception(f"_publish {ex}", exc_info=False)
+        LOGGER.exception(f"_publish {ex}", exc_info=False)
 
 
 def _filter_id(dict_dirty: dict):
@@ -87,9 +85,7 @@ def _cast_type(type_value: str, value: str):
 def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
     """Send retain message for Home Assistant config to broker."""
     # get the gismo
-    gismo_dict = dict(
-        Gismo.objects.filter(id=gismo.id).values()[0]
-    )
+    gismo_dict = dict(Gismo.objects.filter(id=gismo.id).values()[0])
 
     # get defaults for ha component
     ha_component = Component.objects.get(id=dp["ha_component_id"])
@@ -139,9 +135,7 @@ def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
 def _publish_hass(gismo, clear: bool = False):
     """Send retain messages for Home Assistant config to broker."""
     # get the dps
-    dps = list(
-        Dp.objects.filter(gismo_id=gismo.id).values()
-    )
+    dps = list(Dp.objects.filter(gismo_id=gismo.id).values())
 
     for dp in dps:
         _publish_hass_dp(gismo, dp, clear)
@@ -149,13 +143,11 @@ def _publish_hass(gismo, clear: bool = False):
 
 def publish_gismo(gismo, clear: bool = False):
     """Send retain message for TuyaMQTT config to broker."""
-    if not connected:
+    if not MQTT_CONNECTED:
         _mqtt_connect()
 
     # get the device
-    payload_dict = _filter_id(
-        dict(Gismo.objects.filter(id=gismo.id).values()[0])
-    )
+    payload_dict = _filter_id(dict(Gismo.objects.filter(id=gismo.id).values()[0]))
 
     # get the dps
     dps = Dp.objects.filter(gismo_id=gismo.id)
@@ -176,15 +168,15 @@ def publish_gismo(gismo, clear: bool = False):
 
 
 def unpublish_gismo(gismo):
-
-    if not connected:
+    """Remove the device from MQTT."""
+    if not MQTT_CONNECTED:
         _mqtt_connect()
     publish_gismo(gismo, True)
 
 
 def publish_gismos():
-
-    if not connected:
+    """Add the device to MQTT."""
+    if not MQTT_CONNECTED:
         _mqtt_connect()
 
     for gismo in Gismo.objects.all():
@@ -193,15 +185,15 @@ def publish_gismos():
 
 def _mqtt_connect():
     """Connect to MQTT Broker."""
-    global client
+    # global client
     try:
-        client = mqtt.Client()
-        client.enable_logger()
+        MQTT_CLIENT = mqtt.Client()
+        MQTT_CLIENT.enable_LOGGER()
 
         user = Setting.objects.get(name="mqtt_user").value
         passwd = Setting.objects.get(name="mqtt_pass").value
         if user and passwd:
-            client.username_pw_set(
+            MQTT_CLIENT.username_pw_set(
                 user, passwd,
             )
 
@@ -211,15 +203,17 @@ def _mqtt_connect():
         port = int(Setting.objects.get(name="mqtt_port").value)
         if not port:
             port = 1883
-        client.connect(
+        MQTT_CLIENT.connect(
             host, port, 60,
         )
-        client.on_connect = on_connect
-        client.loop_start()
-        # client.on_message = on_message
+        MQTT_CLIENT.on_connect = on_connect
+        MQTT_CLIENT.loop_start()
+        # MQTT_CLIENT.on_message = on_message
 
     except Exception as ex:
-        logger.warning("(%s) Failed to connect to MQTT Broker %s", "", ex)
+        LOGGER.warning("(%s) Failed to connect to MQTT Broker %s", "", ex)
+
 
 def init():
+    """Start the MQTT connection."""
     _mqtt_connect()
