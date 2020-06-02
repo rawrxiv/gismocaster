@@ -6,7 +6,7 @@ from homeassistant.models import Component
 from .models import Setting, Gismo, Dp, HAOverwrite
 
 
-LOGLEVEL = logging.INFO
+LOGLEVEL = logging.DEBUG
 LOGGER = logging.getLogger(__name__)
 logging.basicConfig(
     format="%(asctime)s %(levelname)-8s [%(name)s] %(message)s", level=LOGLEVEL
@@ -36,22 +36,22 @@ def on_connect(client, userdata, flags, rc):
     Runs in MQTT scope
     """
     global MQTT_CONNECTED, MQTT_CLIENT
-    MQTT_CLIENT = client
+    # MQTT_CLIENT = client
     LOGGER.info("MQTT Connection state: %s " % (_connack_string(rc)))
     MQTT_CONNECTED = True
+    MQTT_CLIENT.subscribe("homeassistant/#")
     publish_gismos()
-    # MQTT_CLIENT.subscribe("homeassistant/#")
 
 
 # TODO what are the types of these func params
-# def on_message(client, userdata, message):
+def on_message(client, userdata, message):
 
-#     LOGGER.debug(
-#         "topic %s retained %s message received %s",
-#         message.topic,
-#         message.retain,
-#         str(message.payload.decode("utf-8")),
-#     )
+    LOGGER.debug(
+        "\t\tTopic %s retained %s message received %s",
+        message.topic,
+        message.retain,
+        str(message.payload.decode("utf-8")),
+    )
 
 
 def _publish(topic: str, payload_dict: dict, clear: bool = False, retain: bool = True):
@@ -65,7 +65,7 @@ def _publish(topic: str, payload_dict: dict, clear: bool = False, retain: bool =
         payload = None
 
     try:
-        LOGGER.debug(f"_publish {topic} {payload}")
+        LOGGER.debug(f"Publishing {topic} {payload} {retain}")
         MQTT_CLIENT.publish(topic, payload, retain=retain)
     except Exception as ex:
         LOGGER.exception(f"_publish {ex}", exc_info=False)
@@ -172,8 +172,8 @@ def _publish_hass(gismo, clear: bool = False):
 
 def publish_gismo(gismo, clear: bool = False):
     """Send retain message for TuyaMQTT config to broker."""
-    if not MQTT_CONNECTED:
-        _mqtt_connect()
+    # if not MQTT_CONNECTED:
+    # _mqtt_connect()
 
     # get the device
     gismo_set = Gismo.objects.filter(id=gismo.id).values()
@@ -217,10 +217,8 @@ def publish_gismos():
 
 def _mqtt_connect():
     """Connect to MQTT Broker."""
-    # global client
+    global MQTT_CLIENT
     try:
-        MQTT_CLIENT = mqtt.Client()
-        MQTT_CLIENT.enable_logger()
 
         user = Setting.objects.get(name="mqtt_user").value
         passwd = Setting.objects.get(name="mqtt_pass").value
@@ -235,15 +233,20 @@ def _mqtt_connect():
         port = int(Setting.objects.get(name="mqtt_port").value)
         if not port:
             port = 1883
+        # print(host, port)
         MQTT_CLIENT.connect(
             host, port, 60,
         )
         MQTT_CLIENT.on_connect = on_connect
         MQTT_CLIENT.loop_start()
-        # MQTT_CLIENT.on_message = on_message
+        MQTT_CLIENT.on_message = on_message
 
     except Exception as ex:
         LOGGER.warning("(%s) Failed to connect to MQTT Broker %s", "", ex)
+
+
+MQTT_CLIENT = mqtt.Client()
+MQTT_CLIENT.enable_logger()
 
 
 def init():
