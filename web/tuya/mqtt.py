@@ -96,7 +96,7 @@ def _set_device(payload_dict: dict, gismo_dict: dict, name: str):
     payload_dict["device"] = {
         "identifiers": [gismo_dict["deviceid"]],
         "name": name,
-        "model": f"Tuya",
+        "model": "Tuya",
         "sw_version": "1.0.0",
         "manufacturer": "GismoCaster",
         "via_device": gismo_dict["name"],

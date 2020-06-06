@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Setting, Gismo, Dp, HAOverwrite
+from .models import Setting, Gismo, GismoModel, Dp, HAOverwrite
 
 
 class SettingAdmin(admin.ModelAdmin):
@@ -24,20 +24,20 @@ class DpInline(admin.StackedInline):
 
 class GismoAdmin(admin.ModelAdmin):
     list_display = ("name", "ip", "protocol", "ha_discovery", "tuya_discovery")
+    # inlines = [
+    #     DpInline,
+    # ]
+
+
+class GismoModelAdmin(admin.ModelAdmin):
     inlines = [
         DpInline,
     ]
-
-
-# class GismoModelAdmin(admin.ModelAdmin):GismoModel,
-#     inlines = [
-#         DpInline,
-#     ]
-#     list_display = ("name")
+    list_display = ("name",)
 
 
 admin.site.register(Setting, SettingAdmin)
-admin.site.register(Gismo, GismoAdmin)
-# admin.site.register(GismoModel, GismoModelAdmin)
+admin.site.register(Gismo)
+admin.site.register(GismoModel, GismoModelAdmin)
 # admin.site.register(HAOverwrite)
 admin.site.register(Dp, DpAdmin)

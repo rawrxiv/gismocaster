@@ -1,0 +1,188 @@
+[{
+        "model": "homeassistant.componentvalue",
+        "pk": 3,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "atype",
+            "name": "automation_type",
+            "type_value": "string"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 36,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "dev",
+            "name": "device",
+            "type_value": "string"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 37,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "dev_cla",
+            "name": "device_class",
+            "type_value": "string"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 56,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "frc_upd",
+            "name": "force_update",
+            "type_value": "bool"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 64,
+        "fields": {
+            "default_value": "mdi:light-switch",
+            "abbreviation": "ic",
+            "name": "icon",
+            "type_value": "string"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 65,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "init",
+            "name": "initial",
+            "type_value": "string"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 66,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "json_attr",
+            "name": "json_attributes",
+            "type_value": "string"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 74,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "abbreviation",
+            "name": "abbreviation",
+            "type_value": "string"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 76,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "on_cmd_type",
+            "name": "on_command_type",
+            "type_value": "string"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 77,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "opt",
+            "name": "optimistic",
+            "type_value": "bool"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 118,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "ret",
+            "name": "retain",
+            "type_value": "bool"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 124,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "send_if_off",
+            "name": "send_if_off",
+            "type_value": "string"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 133,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "src_type",
+            "name": "source_type",
+            "type_value": "string"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 145,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "stype",
+            "name": "subtype",
+            "type_value": "string"
+        }
+    }, {
+        "model": "homeassistant.componentvalue",
+        "pk": 146,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "sup_feat",
+            "name": "supported_features",
+            "type_value": "string"
+        }
+    },
+    {
+        "model": "homeassistant.componentvalue",
+        "pk": 159,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "temp_unit",
+            "name": "temperature_unit",
+            "type_value": "string"
+        }
+    },
+    {
+        "model": "homeassistant.componentvalue",
+        "pk": 170,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "uniq_id",
+            "name": "unique_id",
+            "type_value": "string"
+        }
+    },
+    {
+        "model": "homeassistant.componentvalue",
+        "pk": 171,
+        "fields": {
+            "default_value": "",
+            "abbreviation": "unit_of_meas",
+            "name": "unit_of_measurement",
+            "type_value": "string"
+        }
+    },
+
+    {
+        "model": "homeassistant.componentvalue",
+        "pk": 180,
+        "fields": {
+            "default_value": "0",
+            "abbreviation": "qos",
+            "name": "qos",
+            "type_value": "int"
+        }
+    },
+    {
+        "model": "homeassistant.componentvalue",
+        "pk": 181,
+        "fields": {
+            "default_value": "0",
+            "abbreviation": "name",
+            "name": "name",
+            "type_value": "string"
+        }
+    }
+]

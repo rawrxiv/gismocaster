@@ -1,7 +1,7 @@
 init:
 	pip3 install -r requirements.txt
 	python3 web/manage.py migrate	
-	python3 web/manage.py loaddata component variable setting
+	python3 web/manage.py loaddata component topic template topic_value component_value etc/setting.json 
 	python3 web/manage.py createsuperuser --username admin --password admin --email admin@admin.com
 
 install:
