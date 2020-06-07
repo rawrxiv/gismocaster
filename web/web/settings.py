@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     "homeassistant.apps.HomeassistantConfig",
     "mqtt.apps.MqttConfig",
     "django_createsuperuser",
-    "smart_selects",
+    # "smart_selects",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

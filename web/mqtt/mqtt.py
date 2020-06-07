@@ -42,13 +42,14 @@ def on_connect(client, userdata, flags, rc):
     MQTT_CONNECTED = True
     MQTT_CLIENT.subscribe("homeassistant/#")
     publish_gismos()
+    publish_transformers()
 
 
 # TODO what are the types of these func params
 def on_message(client, userdata, message):
 
     LOGGER.debug(
-        "\t\tTopic %s retained %s message received %s",
+        "Topic %s retained %s message received %s",
         message.topic,
         message.retain,
         str(message.payload.decode("utf-8")),
@@ -81,14 +82,25 @@ def _filter_id(dict_dirty: dict):
     )
 
 
+def _filter_token(dict_dirty: dict, token: list):
+    """Remove token fields from resultset."""
+    return dict(filter(lambda elem: elem[0] not in token, dict_dirty.items()))
+
+
 def _cast_type(type_value: str, value: str):
 
     if type_value == "bool":
         return bool(value)
     if type_value == "int":
+        if not value:
+            return 0
         return int(value)
     if type_value == "float":
+        if not value:
+            return 0
         return float(value)
+    if type_value == "str":
+        return str(value)
     return value
 
 
@@ -171,10 +183,10 @@ def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
 
     _set_device(payload_dict, gismo_dict, pub_name)
 
-    payload_dict["~"] = f'tuya/{gismo_dict["deviceid"]}/{dp["key"]}/'
+    payload_dict["~"] = f'tuyagateway/{gismo_dict["deviceid"]}/{dp["key"]}/'
     if "avty_t" in payload_dict:
         payload_dict["avty_t"] = payload_dict["avty_t"].replace(
-            "~", f'tuya/{gismo_dict["deviceid"]}/'
+            "~", f'tuyagateway/{gismo_dict["deviceid"]}/'
         )
 
     _publish(topic, payload_dict, clear)
@@ -200,6 +212,56 @@ def _publish_hass(gismo, clear: bool = False):
         _publish_hass_dp(gismo, dp, clear)
 
 
+def _prepare_item(item: dict, remove: list, casts: dict = None):
+
+    casts = {"type_value": "default_value", "tuya_type_value": "tuya_value"}
+
+    for key, value in casts.items():
+        if key in item and value in item:
+            item[value] = _cast_type(item[key], item[value])
+
+    remove.append("tuya_type_value")
+    return _filter_id(_filter_token(item, remove))
+
+
+def _publish_transformer(component):
+
+    topic = f"tuyagateway/transformer/homeassistant/{component.technical_name}"
+
+    topic_dict = {}
+    for topic_val in component.topics.all().values():
+        topicid = topic_val["id"]
+        topic_dict[topic_val["abbreviation"]] = _prepare_item(
+            topic_val, ["abbreviation", "specialized_for"]
+        )
+        topic_dict[topic_val["abbreviation"]]["values"] = {
+            item["abbreviation"]: _prepare_item(item, ["abbreviation"])
+            for item in list(TopicValue.objects.filter(topic_id=topicid).values())
+        }
+
+    transformer_dict = {
+        "values": {
+            item["abbreviation"]: _prepare_item(item, ["abbreviation"])
+            for item in list(component.values.values())
+        },
+        "topics": topic_dict,
+        "templates": {
+            item["abbreviation"]: _prepare_item(item, ["abbreviation"])
+            for item in list(component.templates.values())
+        },
+    }
+
+    _publish(topic, transformer_dict, False)
+
+
+def publish_transformers():
+
+    components = Component.objects.all()
+
+    for component in list(components):
+        _publish_transformer(component)
+
+
 def publish_gismo(gismo, clear: bool = False):
     """Send retain message for TuyaMQTT config to broker."""
     # if not MQTT_CONNECTED:
@@ -212,14 +274,29 @@ def publish_gismo(gismo, clear: bool = False):
     payload_dict = _filter_id(dict(gismo_set[0]))
 
     # get the gismo_model
-    # gismo_model = GismoModel.objects.filter(id=gismo.gismo_model_id)
+    gismo_model = GismoModel.objects.filter(id=gismo.gismo_model_id).values()
+
+    if len(gismo_model) == 0:
+        return
+    payload_dict["protocol"] = gismo_model[0]["protocol"]
+    payload_dict["pref_status_cmd"] = gismo_model[0]["pref_status_cmd"]
 
     # get the dps
     dps = Dp.objects.filter(gismo_model_id=gismo.gismo_model_id)
 
-    payload_dict["dps"] = list(map(_filter_id, list(dps.values())))
+    payload_dict["dps"] = []
+    for data_point in dps:
+        dp_dict = {}
+        # this is stupid
+        data_point_val = Dp.objects.filter(id=data_point.id).values()
+        if len(data_point_val) == 0:
+            continue
+        dp_dict = _filter_id(dict(data_point_val[0]))
+        dp_dict["component"] = data_point.ha_component.technical_name
+        dp_dict["topic"] = data_point.ha_topic.name
+        payload_dict["dps"].append(dp_dict)
 
-    topic = f"tuya/discovery/{payload_dict['deviceid']}"
+    topic = f"tuyagateway/discovery/{payload_dict['deviceid']}"
 
     clear_tuya = clear
     if not gismo.tuya_discovery:
