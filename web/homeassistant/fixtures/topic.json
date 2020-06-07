@@ -1,0 +1,582 @@
+[
+{
+    "model": "homeassistant.topic",
+    "pk": 1,
+    "fields": {
+        "name": "action_topic",
+        "abbreviation": "act_t",
+        "specialized_for": null,
+        "default_value": "~action"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 4,
+    "fields": {
+        "name": "aux_command_topic",
+        "abbreviation": "aux_cmd_t",
+        "specialized_for": null,
+        "default_value": "~aux_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 6,
+    "fields": {
+        "name": "aux_state_topic",
+        "abbreviation": "aux_stat_t",
+        "specialized_for": null,
+        "default_value": "~aux_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 7,
+    "fields": {
+        "name": "availability_topic",
+        "abbreviation": "avty_t",
+        "specialized_for": null,
+        "default_value": "~availability"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 8,
+    "fields": {
+        "name": "away_mode_command_topic",
+        "abbreviation": "away_mode_cmd_t",
+        "specialized_for": null,
+        "default_value": "~away_mode_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 10,
+    "fields": {
+        "name": "away_mode_state_topic",
+        "abbreviation": "away_mode_stat_t",
+        "specialized_for": null,
+        "default_value": "~away_mode_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 12,
+    "fields": {
+        "name": "brightness_command_topic",
+        "abbreviation": "bri_cmd_t",
+        "specialized_for": null,
+        "default_value": "~brightness_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 14,
+    "fields": {
+        "name": "brightness_state_topic",
+        "abbreviation": "bri_stat_t",
+        "specialized_for": null,
+        "default_value": "~brightness_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 18,
+    "fields": {
+        "name": "battery_level_topic",
+        "abbreviation": "bat_lev_t",
+        "specialized_for": null,
+        "default_value": "~battery_level"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 20,
+    "fields": {
+        "name": "charging_topic",
+        "abbreviation": "chrg_t",
+        "specialized_for": null,
+        "default_value": "~charging"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 22,
+    "fields": {
+        "name": "color_temp_command_topic",
+        "abbreviation": "clr_temp_cmd_t",
+        "specialized_for": null,
+        "default_value": "~color_temp_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 23,
+    "fields": {
+        "name": "color_temp_state_topic",
+        "abbreviation": "clr_temp_stat_t",
+        "specialized_for": null,
+        "default_value": "~color_temp_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 26,
+    "fields": {
+        "name": "cleaning_topic",
+        "abbreviation": "cln_t",
+        "specialized_for": null,
+        "default_value": "~cleaning"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 30,
+    "fields": {
+        "name": "command_topic",
+        "abbreviation": "cmd_t",
+        "specialized_for": null,
+        "default_value": "~command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 34,
+    "fields": {
+        "name": "current_temperature_topic",
+        "abbreviation": "curr_temp_t",
+        "specialized_for": null,
+        "default_value": "~current_temperature"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 38,
+    "fields": {
+        "name": "docked_topic",
+        "abbreviation": "dock_t",
+        "specialized_for": null,
+        "default_value": "~docked"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 40,
+    "fields": {
+        "name": "error_topic",
+        "abbreviation": "err_t",
+        "specialized_for": null,
+        "default_value": "~error"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 42,
+    "fields": {
+        "name": "fan_speed_topic",
+        "abbreviation": "fanspd_t",
+        "specialized_for": null,
+        "default_value": "~fan_speed"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 44,
+    "fields": {
+        "name": "xy_value_template",
+        "abbreviation": "xy_val_tpl",
+        "specialized_for": null,
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 47,
+    "fields": {
+        "name": "effect_command_topic",
+        "abbreviation": "fx_cmd_t",
+        "specialized_for": null,
+        "default_value": "~effect_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 49,
+    "fields": {
+        "name": "effect_state_topic",
+        "abbreviation": "fx_stat_t",
+        "specialized_for": null,
+        "default_value": "~effect_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 53,
+    "fields": {
+        "name": "fan_mode_command_topic",
+        "abbreviation": "fan_mode_cmd_t",
+        "specialized_for": null,
+        "default_value": "~fan_mode_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 55,
+    "fields": {
+        "name": "fan_mode_state_topic",
+        "abbreviation": "fan_mode_stat_t",
+        "specialized_for": null,
+        "default_value": "~fan_mode_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 58,
+    "fields": {
+        "name": "hold_command_topic",
+        "abbreviation": "hold_cmd_t",
+        "specialized_for": null,
+        "default_value": "~hold_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 60,
+    "fields": {
+        "name": "hold_state_topic",
+        "abbreviation": "hold_stat_t",
+        "specialized_for": null,
+        "default_value": "~hold_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 61,
+    "fields": {
+        "name": "hs_command_topic",
+        "abbreviation": "hs_cmd_t",
+        "specialized_for": null,
+        "default_value": "~hs_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 62,
+    "fields": {
+        "name": "hs_state_topic",
+        "abbreviation": "hs_stat_t",
+        "specialized_for": null,
+        "default_value": "~hs_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 67,
+    "fields": {
+        "name": "json_attributes_topic",
+        "abbreviation": "json_attr_t",
+        "specialized_for": null,
+        "default_value": "~attributes"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 71,
+    "fields": {
+        "name": "mode_command_topic",
+        "abbreviation": "mode_cmd_t",
+        "specialized_for": null,
+        "default_value": "~mode_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 73,
+    "fields": {
+        "name": "mode_state_topic",
+        "abbreviation": "mode_stat_t",
+        "specialized_for": null,
+        "default_value": "~mode_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 78,
+    "fields": {
+        "name": "oscillation_command_topic",
+        "abbreviation": "osc_cmd_t",
+        "specialized_for": null,
+        "default_value": "~oscillation_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 79,
+    "fields": {
+        "name": "oscillation_state_topic",
+        "abbreviation": "osc_stat_t",
+        "specialized_for": null,
+        "default_value": "~oscillation_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 114,
+    "fields": {
+        "name": "power_command_topic",
+        "abbreviation": "pow_cmd_t",
+        "specialized_for": null,
+        "default_value": "~power_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 115,
+    "fields": {
+        "name": "power_state_topic",
+        "abbreviation": "pow_stat_t",
+        "specialized_for": null,
+        "default_value": "~power_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 120,
+    "fields": {
+        "name": "rgb_command_topic",
+        "abbreviation": "rgb_cmd_t",
+        "specialized_for": null,
+        "default_value": "~rgb_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 121,
+    "fields": {
+        "name": "rgb_state_topic",
+        "abbreviation": "rgb_stat_t",
+        "specialized_for": null,
+        "default_value": "~rgb_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 123,
+    "fields": {
+        "name": "send_command_topic",
+        "abbreviation": "send_cmd_t",
+        "specialized_for": null,
+        "default_value": "~send_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 125,
+    "fields": {
+        "name": "set_fan_speed_topic",
+        "abbreviation": "set_fan_spd_t",
+        "specialized_for": null,
+        "default_value": "~set_fan_speed"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 127,
+    "fields": {
+        "name": "set_position_topic",
+        "abbreviation": "set_pos_t",
+        "specialized_for": null,
+        "default_value": "~set_position"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 128,
+    "fields": {
+        "name": "position_topic",
+        "abbreviation": "pos_t",
+        "specialized_for": null,
+        "default_value": "~position"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 129,
+    "fields": {
+        "name": "speed_command_topic",
+        "abbreviation": "spd_cmd_t",
+        "specialized_for": null,
+        "default_value": "~speed_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 130,
+    "fields": {
+        "name": "speed_state_topic",
+        "abbreviation": "spd_stat_t",
+        "specialized_for": null,
+        "default_value": "~speed_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 142,
+    "fields": {
+        "name": "state_topic",
+        "abbreviation": "stat_t",
+        "specialized_for": null,
+        "default_value": "~state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 147,
+    "fields": {
+        "name": "swing_mode_command_topic",
+        "abbreviation": "swing_mode_cmd_t",
+        "specialized_for": null,
+        "default_value": "~swing_mode_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 149,
+    "fields": {
+        "name": "swing_mode_state_topic",
+        "abbreviation": "swing_mode_stat_t",
+        "specialized_for": null,
+        "default_value": "~swing_mode_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 150,
+    "fields": {
+        "name": "temperature_command_topic",
+        "abbreviation": "temp_cmd_t",
+        "specialized_for": null,
+        "default_value": "~temperature_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 151,
+    "fields": {
+        "name": "temperature_high_command_topic",
+        "abbreviation": "temp_hi_cmd_t",
+        "specialized_for": null,
+        "default_value": "~temperature_high_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 153,
+    "fields": {
+        "name": "temperature_high_state_topic",
+        "abbreviation": "temp_hi_stat_t",
+        "specialized_for": null,
+        "default_value": "~temperature_high_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 154,
+    "fields": {
+        "name": "temperature_low_command_topic",
+        "abbreviation": "temp_lo_cmd_t",
+        "specialized_for": null,
+        "default_value": "~temperature_low_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 156,
+    "fields": {
+        "name": "temperature_low_state_topic",
+        "abbreviation": "temp_lo_stat_t",
+        "specialized_for": null,
+        "default_value": "~temperature_low_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 158,
+    "fields": {
+        "name": "temperature_state_topic",
+        "abbreviation": "temp_stat_t",
+        "specialized_for": null,
+        "default_value": "~temperature_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 161,
+    "fields": {
+        "name": "tilt_command_topic",
+        "abbreviation": "tilt_cmd_t",
+        "specialized_for": null,
+        "default_value": "~tilt_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 167,
+    "fields": {
+        "name": "tilt_status_topic",
+        "abbreviation": "tilt_status_t",
+        "specialized_for": null,
+        "default_value": "~tilt_status"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 169,
+    "fields": {
+        "name": "topic",
+        "abbreviation": "t",
+        "specialized_for": null,
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 173,
+    "fields": {
+        "name": "white_value_command_topic",
+        "abbreviation": "whit_val_cmd_t",
+        "specialized_for": null,
+        "default_value": "~white_value_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 175,
+    "fields": {
+        "name": "white_value_state_topic",
+        "abbreviation": "whit_val_stat_t",
+        "specialized_for": null,
+        "default_value": "~white_value_state"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 177,
+    "fields": {
+        "name": "xy_command_topic",
+        "abbreviation": "xy_cmd_t",
+        "specialized_for": null,
+        "default_value": "~xy_command"
+    }
+},
+{
+    "model": "homeassistant.topic",
+    "pk": 178,
+    "fields": {
+        "name": "xy_state_topic",
+        "abbreviation": "xy_stat_t",
+        "specialized_for": null,
+        "default_value": "~xy_state"
+    }
+}
+]

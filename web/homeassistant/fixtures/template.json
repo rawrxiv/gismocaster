@@ -1,0 +1,389 @@
+[
+{
+    "model": "homeassistant.template",
+    "pk": 1,
+    "fields": {
+        "name": "action_template",
+        "abbreviation": "act_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 2,
+    "fields": {
+        "name": "aux_state_template",
+        "abbreviation": "aux_stat_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 3,
+    "fields": {
+        "name": "away_mode_state_template",
+        "abbreviation": "away_mode_stat_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 4,
+    "fields": {
+        "name": "blue_template",
+        "abbreviation": "b_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 5,
+    "fields": {
+        "name": "brightness_template",
+        "abbreviation": "bri_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 6,
+    "fields": {
+        "name": "brightness_value_template",
+        "abbreviation": "bri_val_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 7,
+    "fields": {
+        "name": "color_temp_command_template",
+        "abbreviation": "clr_temp_cmd_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 8,
+    "fields": {
+        "name": "battery_level_template",
+        "abbreviation": "bat_lev_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 9,
+    "fields": {
+        "name": "charging_template",
+        "abbreviation": "chrg_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 10,
+    "fields": {
+        "name": "color_temp_template",
+        "abbreviation": "clr_temp_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 11,
+    "fields": {
+        "name": "color_temp_value_template",
+        "abbreviation": "clr_temp_val_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 12,
+    "fields": {
+        "name": "cleaning_template",
+        "abbreviation": "cln_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 13,
+    "fields": {
+        "name": "command_off_template",
+        "abbreviation": "cmd_off_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 14,
+    "fields": {
+        "name": "command_on_template",
+        "abbreviation": "cmd_on_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 15,
+    "fields": {
+        "name": "command_template",
+        "abbreviation": "cmd_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 16,
+    "fields": {
+        "name": "current_temperature_template",
+        "abbreviation": "curr_temp_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 17,
+    "fields": {
+        "name": "docked_template",
+        "abbreviation": "dock_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 18,
+    "fields": {
+        "name": "error_template",
+        "abbreviation": "err_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 19,
+    "fields": {
+        "name": "fan_speed_template",
+        "abbreviation": "fanspd_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 20,
+    "fields": {
+        "name": "effect_template",
+        "abbreviation": "fx_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 21,
+    "fields": {
+        "name": "effect_value_template",
+        "abbreviation": "fx_val_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 22,
+    "fields": {
+        "name": "fan_mode_state_template",
+        "abbreviation": "fan_mode_stat_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 23,
+    "fields": {
+        "name": "green_template",
+        "abbreviation": "g_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 24,
+    "fields": {
+        "name": "hold_state_template",
+        "abbreviation": "hold_stat_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 25,
+    "fields": {
+        "name": "hs_value_template",
+        "abbreviation": "hs_val_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 26,
+    "fields": {
+        "name": "json_attributes_template",
+        "abbreviation": "json_attr_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 27,
+    "fields": {
+        "name": "mode_state_template",
+        "abbreviation": "mode_stat_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 28,
+    "fields": {
+        "name": "oscillation_value_template",
+        "abbreviation": "osc_val_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 29,
+    "fields": {
+        "name": "power_state_template",
+        "abbreviation": "pow_stat_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 30,
+    "fields": {
+        "name": "red_template",
+        "abbreviation": "r_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 31,
+    "fields": {
+        "name": "rgb_command_template",
+        "abbreviation": "rgb_cmd_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 32,
+    "fields": {
+        "name": "rgb_value_template",
+        "abbreviation": "rgb_val_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 33,
+    "fields": {
+        "name": "set_position_template",
+        "abbreviation": "set_pos_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 34,
+    "fields": {
+        "name": "speed_value_template",
+        "abbreviation": "spd_val_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 35,
+    "fields": {
+        "name": "state_template",
+        "abbreviation": "stat_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 36,
+    "fields": {
+        "name": "state_value_template",
+        "abbreviation": "stat_val_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 37,
+    "fields": {
+        "name": "swing_mode_state_template",
+        "abbreviation": "swing_mode_stat_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 38,
+    "fields": {
+        "name": "temperature_high_state_template",
+        "abbreviation": "temp_hi_stat_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 39,
+    "fields": {
+        "name": "temperature_low_state_template",
+        "abbreviation": "temp_lo_stat_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 40,
+    "fields": {
+        "name": "temperature_state_template",
+        "abbreviation": "temp_stat_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 41,
+    "fields": {
+        "name": "tilt_status_template",
+        "abbreviation": "tilt_status_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 42,
+    "fields": {
+        "name": "value_template",
+        "abbreviation": "val_tpl",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 43,
+    "fields": {
+        "name": "white_value_template",
+        "abbreviation": "whit_val_tpl",
+        "default_value": ""
+    }
+}
+]

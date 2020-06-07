@@ -2,11 +2,12 @@
 import logging
 import json
 import paho.mqtt.client as mqtt
-from homeassistant.models import Component
-from .models import Setting, Gismo, Dp, HAOverwrite
+from homeassistant.models import Component, TopicValue
+from tuya.models import Gismo, GismoModel, Dp, DpName, HAOverwrite
+from .models import Setting
 
 
-LOGLEVEL = logging.INFO
+LOGLEVEL = logging.DEBUG
 LOGGER = logging.getLogger(__name__)
 logging.basicConfig(
     format="%(asctime)s %(levelname)-8s [%(name)s] %(message)s", level=LOGLEVEL
@@ -36,22 +37,22 @@ def on_connect(client, userdata, flags, rc):
     Runs in MQTT scope
     """
     global MQTT_CONNECTED, MQTT_CLIENT
-    MQTT_CLIENT = client
+    # MQTT_CLIENT = client
     LOGGER.info("MQTT Connection state: %s " % (_connack_string(rc)))
     MQTT_CONNECTED = True
+    MQTT_CLIENT.subscribe("homeassistant/#")
     publish_gismos()
-    # MQTT_CLIENT.subscribe("homeassistant/#")
 
 
 # TODO what are the types of these func params
-# def on_message(client, userdata, message):
+def on_message(client, userdata, message):
 
-#     LOGGER.debug(
-#         "topic %s retained %s message received %s",
-#         message.topic,
-#         message.retain,
-#         str(message.payload.decode("utf-8")),
-#     )
+    LOGGER.debug(
+        "\t\tTopic %s retained %s message received %s",
+        message.topic,
+        message.retain,
+        str(message.payload.decode("utf-8")),
+    )
 
 
 def _publish(topic: str, payload_dict: dict, clear: bool = False, retain: bool = True):
@@ -65,7 +66,7 @@ def _publish(topic: str, payload_dict: dict, clear: bool = False, retain: bool =
         payload = None
 
     try:
-        LOGGER.debug(f"_publish {topic} {payload}")
+        LOGGER.debug(f"Publishing {topic} {payload} {retain}")
         MQTT_CLIENT.publish(topic, payload, retain=retain)
     except Exception as ex:
         LOGGER.exception(f"_publish {ex}", exc_info=False)
@@ -96,7 +97,7 @@ def _set_device(payload_dict: dict, gismo_dict: dict, name: str):
     payload_dict["device"] = {
         "identifiers": [gismo_dict["deviceid"]],
         "name": name,
-        "model": f"Tuya",
+        "model": "Tuya",
         "sw_version": "1.0.0",
         "manufacturer": "GismoCaster",
         "via_device": gismo_dict["name"],
@@ -111,9 +112,16 @@ def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
         return
     gismo_dict = dict(gismo_set[0])
 
+    # get dpname for gismo
+    dpname = DpName.objects.filter(gismo_id=gismo.id, dp_id=dp["id"]).values()
+
+    pub_name = dp["name"]
+    if len(dpname) != 0:
+        pub_name = dict(dpname[0])["name"]
+
     # get defaults for ha component
     ha_component = Component.objects.get(id=dp["ha_component_id"])
-    ha_vars_list = list(ha_component.variables.all().values())
+    ha_vars_list = list(ha_component.values.all().values())
     payload_dict = {}
 
     for item in ha_vars_list:
@@ -122,6 +130,28 @@ def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
         payload_dict[item["abbreviation"]] = _cast_type(
             item["type_value"], item["default_value"]
         )
+
+    # get topics
+    topic_list = list(ha_component.topics.all().values())
+    for item in topic_list:
+        if not item["default_value"]:
+            continue
+        payload_dict[item["abbreviation"]] = item["default_value"]
+        ha_topicvalues = TopicValue.objects.filter(topic_id=item["id"]).all().values()
+
+        for topicvalue_item in ha_topicvalues:
+            if not topicvalue_item["default_value"]:
+                continue
+            payload_dict[topicvalue_item["abbreviation"]] = _cast_type(
+                topicvalue_item["type_value"], topicvalue_item["default_value"]
+            )
+
+    # get templates
+    template_list = list(ha_component.templates.all().values())
+    for item in template_list:
+        if not item["default_value"]:
+            continue
+        payload_dict[item["abbreviation"]] = item["default_value"]
 
     # get ha overwrites
     ha_overwrites = HAOverwrite.objects.filter(dp_id=dp["id"]).all()
@@ -135,11 +165,11 @@ def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
     topic = f"homeassistant/{ha_component.technical_name}/{hass_id}/config"
 
     if "name" in payload_dict:
-        payload_dict["name"] = dp["name"]
+        payload_dict["name"] = pub_name
 
     payload_dict["uniq_id"] = hass_id
 
-    _set_device(payload_dict, gismo_dict, dp["name"])
+    _set_device(payload_dict, gismo_dict, pub_name)
 
     payload_dict["~"] = f'tuya/{gismo_dict["deviceid"]}/{dp["key"]}/'
     if "avty_t" in payload_dict:
@@ -164,7 +194,7 @@ def _publish_hass(gismo, clear: bool = False):
     # _publish(topic, payload_dict, clear)
 
     # get the dps
-    dps = list(Dp.objects.filter(gismo_id=gismo.id).values())
+    dps = list(Dp.objects.filter(gismo_model_id=gismo.gismo_model_id).values())
 
     for dp in dps:
         _publish_hass_dp(gismo, dp, clear)
@@ -172,8 +202,8 @@ def _publish_hass(gismo, clear: bool = False):
 
 def publish_gismo(gismo, clear: bool = False):
     """Send retain message for TuyaMQTT config to broker."""
-    if not MQTT_CONNECTED:
-        _mqtt_connect()
+    # if not MQTT_CONNECTED:
+    # _mqtt_connect()
 
     # get the device
     gismo_set = Gismo.objects.filter(id=gismo.id).values()
@@ -181,8 +211,11 @@ def publish_gismo(gismo, clear: bool = False):
         return
     payload_dict = _filter_id(dict(gismo_set[0]))
 
+    # get the gismo_model
+    # gismo_model = GismoModel.objects.filter(id=gismo.gismo_model_id)
+
     # get the dps
-    dps = Dp.objects.filter(gismo_id=gismo.id)
+    dps = Dp.objects.filter(gismo_model_id=gismo.gismo_model_id)
 
     payload_dict["dps"] = list(map(_filter_id, list(dps.values())))
 
@@ -217,10 +250,8 @@ def publish_gismos():
 
 def _mqtt_connect():
     """Connect to MQTT Broker."""
-    # global client
+    global MQTT_CLIENT
     try:
-        MQTT_CLIENT = mqtt.Client()
-        MQTT_CLIENT.enable_logger()
 
         user = Setting.objects.get(name="mqtt_user").value
         passwd = Setting.objects.get(name="mqtt_pass").value
@@ -235,15 +266,20 @@ def _mqtt_connect():
         port = int(Setting.objects.get(name="mqtt_port").value)
         if not port:
             port = 1883
+        # print(host, port)
         MQTT_CLIENT.connect(
             host, port, 60,
         )
         MQTT_CLIENT.on_connect = on_connect
         MQTT_CLIENT.loop_start()
-        # MQTT_CLIENT.on_message = on_message
+        MQTT_CLIENT.on_message = on_message
 
     except Exception as ex:
         LOGGER.warning("(%s) Failed to connect to MQTT Broker %s", "", ex)
+
+
+MQTT_CLIENT = mqtt.Client()
+MQTT_CLIENT.enable_logger()
 
 
 def init():
@@ -252,6 +288,7 @@ def init():
 
 
 """
+For ref.
 14:29:19 MQT: homeassistant/light/CAA3EA_LI_4/config =  (retained)
 14:29:19 MQT: homeassistant/switch/CAA3EA_RL_4/config = {"name":"IR Zone 4","cmd_t":"~cmnd/POWER4","stat_t":"~tele/STATE","val_tpl":"{{value_json.POWER4}}","pl_off":"OFF","pl_on":"ON","avty_t":"~tele/LWT","pl_avail":"Online","pl_not_avail":"Offline","uniq_id":"CAA3EA_RL_4","device":{"identifiers":["CAA3EA"],"connections":[["mac","60:01:94:CA:A3:EA"]]},"~":"sonoff/"} (retained)
 14:29:19 MQT: homeassistant/light/CAA3EA_LI_5/config =  (retained)
