@@ -1,6 +1,6 @@
 [
     {
-      "model": "tuya.setting",
+      "model": "mqtt.setting",
       "pk": 1,
       "fields": {
         "name": "mqtt_host",
@@ -8,7 +8,7 @@
       }
     },    
     {
-      "model": "tuya.setting",
+      "model": "mqtt.setting",
       "pk": 2,
       "fields": {
         "name": "mqtt_port",
@@ -16,7 +16,7 @@
       }
     },    
     {
-      "model": "tuya.setting",
+      "model": "mqtt.setting",
       "pk": 3,
       "fields": {
         "name": "mqtt_user",
@@ -24,7 +24,7 @@
       }
     },    
     {
-      "model": "tuya.setting",
+      "model": "mqtt.setting",
       "pk": 4,
       "fields": {
         "name": "mqtt_pass",

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ["*"]
 INSTALLED_APPS = [
     "tuya.apps.TuyaConfig",
     "homeassistant.apps.HomeassistantConfig",
+    "mqtt.apps.MqttConfig",
     "django_createsuperuser",
     "smart_selects",
     "django.contrib.admin",

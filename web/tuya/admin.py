@@ -1,10 +1,6 @@
 from django.contrib import admin
 
-from .models import Setting, Gismo, GismoModel, Dp, HAOverwrite, DpName
-
-
-class SettingAdmin(admin.ModelAdmin):
-    list_display = ("name", "value")
+from .models import Gismo, GismoModel, Dp, HAOverwrite, DpName
 
 
 class HAOverwriteInline(admin.TabularInline):
@@ -40,7 +36,6 @@ class GismoModelAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
 
-admin.site.register(Setting, SettingAdmin)
 admin.site.register(Gismo, GismoAdmin)
 admin.site.register(GismoModel, GismoModelAdmin)
 # admin.site.register(HAOverwrite)

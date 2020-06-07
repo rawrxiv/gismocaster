@@ -3,7 +3,8 @@ import logging
 import json
 import paho.mqtt.client as mqtt
 from homeassistant.models import Component, TopicValue
-from .models import Setting, Gismo, GismoModel, Dp, DpName, HAOverwrite
+from tuya.models import Gismo, GismoModel, Dp, DpName, HAOverwrite
+from .models import Setting
 
 
 LOGLEVEL = logging.DEBUG
