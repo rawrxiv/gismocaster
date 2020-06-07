@@ -1,6 +1,7 @@
 # https://simpleisbetterthancomplex.com/tutorial/2016/07/28/how-to-create-django-signals.html
 from .models import Setting
 from tuya.models import Gismo, GismoModel, Dp, DpName, HAOverwrite
+from homeassistant.models import Component, Topic, TopicValue, Template, ComponentValue
 from django.db.models.signals import post_save, post_delete, pre_save, pre_delete
 from django.dispatch import receiver
 from . import mqtt
@@ -49,3 +50,29 @@ def save_setting(sender, instance, **kwargs):
 @receiver(pre_delete, sender=Setting)
 def delete_setting(sender, instance, using, **kwargs):
     mqtt.init()
+
+
+# HA transformers
+@receiver(post_save, sender=Component)
+def save_component(sender, instance, **kwargs):
+    mqtt.publish_transformers()
+
+
+@receiver(post_save, sender=ComponentValue)
+def save_cvalue(sender, instance, **kwargs):
+    mqtt.publish_transformers()
+
+
+@receiver(post_save, sender=Topic)
+def save_topic(sender, instance, **kwargs):
+    mqtt.publish_transformers()
+
+
+@receiver(post_save, sender=TopicValue)
+def save_tvalue(sender, instance, **kwargs):
+    mqtt.publish_transformers()
+
+
+@receiver(post_save, sender=Template)
+def save_template(sender, instance, **kwargs):
+    mqtt.publish_transformers()
