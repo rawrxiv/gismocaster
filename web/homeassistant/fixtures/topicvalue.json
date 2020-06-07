@@ -1,0 +1,769 @@
+[
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 13,
+    "fields": {
+        "topic": 1,
+        "name": "brightness_scale",
+        "abbreviation": "bri_scl",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 32,
+    "fields": {
+        "topic": 1,
+        "name": "code_arm_required",
+        "abbreviation": "cod_arm_req",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 33,
+    "fields": {
+        "topic": 1,
+        "name": "code_disarm_required",
+        "abbreviation": "cod_dis_req",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 44,
+    "fields": {
+        "topic": 1,
+        "name": "fan_speed_list",
+        "abbreviation": "fanspd_lst",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 45,
+    "fields": {
+        "topic": 1,
+        "name": "flash_time_long",
+        "abbreviation": "flsh_tlng",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 46,
+    "fields": {
+        "topic": 1,
+        "name": "flash_time_short",
+        "abbreviation": "flsh_tsht",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 48,
+    "fields": {
+        "topic": 1,
+        "name": "effect_list",
+        "abbreviation": "fx_list",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 52,
+    "fields": {
+        "topic": 1,
+        "name": "expire_after",
+        "abbreviation": "exp_aft",
+        "type_value": "int",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 69,
+    "fields": {
+        "topic": 1,
+        "name": "max_temp",
+        "abbreviation": "max_temp",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 70,
+    "fields": {
+        "topic": 1,
+        "name": "min_temp",
+        "abbreviation": "min_temp",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 75,
+    "fields": {
+        "topic": 1,
+        "name": "off_delay",
+        "abbreviation": "off_dly",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 81,
+    "fields": {
+        "topic": 1,
+        "name": "payload",
+        "abbreviation": "pl",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 82,
+    "fields": {
+        "topic": 1,
+        "name": "payload_arm_away",
+        "abbreviation": "pl_arm_away",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 83,
+    "fields": {
+        "topic": 1,
+        "name": "payload_arm_home",
+        "abbreviation": "pl_arm_home",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 84,
+    "fields": {
+        "topic": 1,
+        "name": "payload_arm_custom_bypass",
+        "abbreviation": "pl_arm_custom_b",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 85,
+    "fields": {
+        "topic": 1,
+        "name": "payload_arm_night",
+        "abbreviation": "pl_arm_nite",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 86,
+    "fields": {
+        "topic": 7,
+        "name": "payload_available",
+        "abbreviation": "pl_avail",
+        "type_value": "string",
+        "default_value": "online",
+        "tuya_type_value": "bool",
+        "tuya_value": "True"
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 87,
+    "fields": {
+        "topic": 1,
+        "name": "payload_clean_spot",
+        "abbreviation": "pl_cln_sp",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 88,
+    "fields": {
+        "topic": 1,
+        "name": "payload_close",
+        "abbreviation": "pl_cls",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 89,
+    "fields": {
+        "topic": 1,
+        "name": "payload_disarm",
+        "abbreviation": "pl_disarm",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 90,
+    "fields": {
+        "topic": 1,
+        "name": "payload_high_speed",
+        "abbreviation": "pl_hi_spd",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 91,
+    "fields": {
+        "topic": 1,
+        "name": "payload_home",
+        "abbreviation": "pl_home",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 92,
+    "fields": {
+        "topic": 1,
+        "name": "payload_lock",
+        "abbreviation": "pl_lock",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 93,
+    "fields": {
+        "topic": 1,
+        "name": "payload_locate",
+        "abbreviation": "pl_loc",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 94,
+    "fields": {
+        "topic": 1,
+        "name": "payload_low_speed",
+        "abbreviation": "pl_lo_spd",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 95,
+    "fields": {
+        "topic": 1,
+        "name": "payload_medium_speed",
+        "abbreviation": "pl_med_spd",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 96,
+    "fields": {
+        "topic": 7,
+        "name": "payload_not_available",
+        "abbreviation": "pl_not_avail",
+        "type_value": "string",
+        "default_value": "offline",
+        "tuya_type_value": "bool",
+        "tuya_value": "False"
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 97,
+    "fields": {
+        "topic": 1,
+        "name": "payload_not_home",
+        "abbreviation": "pl_not_home",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 98,
+    "fields": {
+        "topic": 30,
+        "name": "payload_off",
+        "abbreviation": "pl_off",
+        "type_value": "string",
+        "default_value": "OFF",
+        "tuya_type_value": "bool",
+        "tuya_value": "False"
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 99,
+    "fields": {
+        "topic": 1,
+        "name": "payload_off_speed",
+        "abbreviation": "pl_off_spd",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 100,
+    "fields": {
+        "topic": 30,
+        "name": "payload_on",
+        "abbreviation": "pl_on",
+        "type_value": "string",
+        "default_value": "ON",
+        "tuya_type_value": "bool",
+        "tuya_value": "True"
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 101,
+    "fields": {
+        "topic": 1,
+        "name": "payload_open",
+        "abbreviation": "pl_open",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 102,
+    "fields": {
+        "topic": 1,
+        "name": "payload_oscillation_off",
+        "abbreviation": "pl_osc_off",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 103,
+    "fields": {
+        "topic": 1,
+        "name": "payload_oscillation_on",
+        "abbreviation": "pl_osc_on",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 104,
+    "fields": {
+        "topic": 1,
+        "name": "payload_pause",
+        "abbreviation": "pl_paus",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 105,
+    "fields": {
+        "topic": 1,
+        "name": "payload_stop",
+        "abbreviation": "pl_stop",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 106,
+    "fields": {
+        "topic": 1,
+        "name": "payload_start",
+        "abbreviation": "pl_strt",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 107,
+    "fields": {
+        "topic": 1,
+        "name": "payload_start_pause",
+        "abbreviation": "pl_stpa",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 108,
+    "fields": {
+        "topic": 1,
+        "name": "payload_return_to_base",
+        "abbreviation": "pl_ret",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 109,
+    "fields": {
+        "topic": 1,
+        "name": "payload_turn_off",
+        "abbreviation": "pl_toff",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 110,
+    "fields": {
+        "topic": 1,
+        "name": "payload_turn_on",
+        "abbreviation": "pl_ton",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 111,
+    "fields": {
+        "topic": 1,
+        "name": "payload_unlock",
+        "abbreviation": "pl_unlk",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 112,
+    "fields": {
+        "topic": 1,
+        "name": "position_closed",
+        "abbreviation": "pos_clsd",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 113,
+    "fields": {
+        "topic": 1,
+        "name": "position_open",
+        "abbreviation": "pos_open",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 132,
+    "fields": {
+        "topic": 1,
+        "name": "speeds",
+        "abbreviation": "spds",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 134,
+    "fields": {
+        "topic": 1,
+        "name": "state_closed",
+        "abbreviation": "stat_clsd",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 135,
+    "fields": {
+        "topic": 1,
+        "name": "state_closing",
+        "abbreviation": "stat_closing",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 136,
+    "fields": {
+        "topic": 142,
+        "name": "state_off",
+        "abbreviation": "stat_off",
+        "type_value": "string",
+        "default_value": "OFF",
+        "tuya_type_value": "bool",
+        "tuya_value": "False"
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 137,
+    "fields": {
+        "topic": 142,
+        "name": "state_on",
+        "abbreviation": "stat_on",
+        "type_value": "string",
+        "default_value": "ON",
+        "tuya_type_value": "bool",
+        "tuya_value": "True"
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 138,
+    "fields": {
+        "topic": 1,
+        "name": "state_open",
+        "abbreviation": "stat_open",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 139,
+    "fields": {
+        "topic": 1,
+        "name": "state_opening",
+        "abbreviation": "stat_opening",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 140,
+    "fields": {
+        "topic": 1,
+        "name": "state_locked",
+        "abbreviation": "stat_locked",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 141,
+    "fields": {
+        "topic": 1,
+        "name": "state_unlocked",
+        "abbreviation": "stat_unlocked",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 160,
+    "fields": {
+        "topic": 1,
+        "name": "tilt_closed_value",
+        "abbreviation": "tilt_clsd_val",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 162,
+    "fields": {
+        "topic": 1,
+        "name": "tilt_invert_state",
+        "abbreviation": "tilt_inv_stat",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 163,
+    "fields": {
+        "topic": 1,
+        "name": "tilt_max",
+        "abbreviation": "tilt_max",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 164,
+    "fields": {
+        "topic": 1,
+        "name": "tilt_min",
+        "abbreviation": "tilt_min",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 165,
+    "fields": {
+        "topic": 1,
+        "name": "tilt_opened_value",
+        "abbreviation": "tilt_opnd_val",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+},
+{
+    "model": "homeassistant.topicvalue",
+    "pk": 166,
+    "fields": {
+        "topic": 1,
+        "name": "tilt_optimistic",
+        "abbreviation": "tilt_opt",
+        "type_value": "string",
+        "default_value": "",
+        "tuya_type_value": "string",
+        "tuya_value": null
+    }
+}
+]

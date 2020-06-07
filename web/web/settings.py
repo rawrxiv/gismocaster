@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "tuya.apps.TuyaConfig",
     "homeassistant.apps.HomeassistantConfig",
     "django_createsuperuser",
+    "smart_selects",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -117,3 +118,4 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 ASGI_APPLICATION = "web.routing.application"
+# USE_DJANGO_JQUERY = True

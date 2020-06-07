@@ -1,5 +1,7 @@
 from django.db import models
-from homeassistant.models import Component, TopicValue
+
+# from smart_selects.db_fields import ChainedForeignKey
+from homeassistant.models import Component, TopicValue, Topic
 
 # Create your models here.
 class Setting(models.Model):
@@ -33,12 +35,12 @@ class GismoModel(models.Model):
 
 class Gismo(models.Model):
 
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32, unique=True)
     gismo_model = models.ForeignKey(GismoModel, on_delete=models.CASCADE)
 
     deviceid = models.CharField(max_length=64, unique=True)
-    localkey = models.CharField(max_length=64, unique=True)
-    ip = models.GenericIPAddressField()
+    localkey = models.CharField(max_length=64)
+    ip = models.GenericIPAddressField(unique=True)
 
     ha_discovery = models.BooleanField()
     tuya_discovery = models.BooleanField()
@@ -70,6 +72,7 @@ class Dp(models.Model):
     )
 
     ha_component = models.ForeignKey(Component, on_delete=models.CASCADE)
+    ha_topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{str(self.key)} ({self.gismo_model.name} / {self.ha_component.name})"
@@ -96,3 +99,14 @@ class HAOverwrite(models.Model):
 
     def __str__(self):
         return self.value
+
+
+class DpName(models.Model):
+
+    gismo = models.ForeignKey(Gismo, on_delete=models.CASCADE)
+    gismo_model = models.ForeignKey(GismoModel, on_delete=models.CASCADE)
+    dp = models.ForeignKey(Dp, on_delete=models.CASCADE)
+    name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name

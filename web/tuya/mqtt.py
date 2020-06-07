@@ -2,8 +2,8 @@
 import logging
 import json
 import paho.mqtt.client as mqtt
-from homeassistant.models import Component
-from .models import Setting, Gismo, Dp, HAOverwrite
+from homeassistant.models import Component, TopicValue
+from .models import Setting, Gismo, GismoModel, Dp, DpName, HAOverwrite
 
 
 LOGLEVEL = logging.DEBUG
@@ -111,9 +111,16 @@ def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
         return
     gismo_dict = dict(gismo_set[0])
 
+    # get dpname for gismo
+    dpname = DpName.objects.filter(gismo_id=gismo.id, dp_id=dp["id"]).values()
+
+    pub_name = dp["name"]
+    if len(dpname) != 0:
+        pub_name = dict(dpname[0])["name"]
+
     # get defaults for ha component
     ha_component = Component.objects.get(id=dp["ha_component_id"])
-    ha_vars_list = list(ha_component.variables.all().values())
+    ha_vars_list = list(ha_component.values.all().values())
     payload_dict = {}
 
     for item in ha_vars_list:
@@ -122,6 +129,28 @@ def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
         payload_dict[item["abbreviation"]] = _cast_type(
             item["type_value"], item["default_value"]
         )
+
+    # get topics
+    topic_list = list(ha_component.topics.all().values())
+    for item in topic_list:
+        if not item["default_value"]:
+            continue
+        payload_dict[item["abbreviation"]] = item["default_value"]
+        ha_topicvalues = TopicValue.objects.filter(topic_id=item["id"]).all().values()
+
+        for topicvalue_item in ha_topicvalues:
+            if not topicvalue_item["default_value"]:
+                continue
+            payload_dict[topicvalue_item["abbreviation"]] = _cast_type(
+                topicvalue_item["type_value"], topicvalue_item["default_value"]
+            )
+
+    # get templates
+    template_list = list(ha_component.templates.all().values())
+    for item in template_list:
+        if not item["default_value"]:
+            continue
+        payload_dict[item["abbreviation"]] = item["default_value"]
 
     # get ha overwrites
     ha_overwrites = HAOverwrite.objects.filter(dp_id=dp["id"]).all()
@@ -135,11 +164,11 @@ def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
     topic = f"homeassistant/{ha_component.technical_name}/{hass_id}/config"
 
     if "name" in payload_dict:
-        payload_dict["name"] = dp["name"]
+        payload_dict["name"] = pub_name
 
     payload_dict["uniq_id"] = hass_id
 
-    _set_device(payload_dict, gismo_dict, dp["name"])
+    _set_device(payload_dict, gismo_dict, pub_name)
 
     payload_dict["~"] = f'tuya/{gismo_dict["deviceid"]}/{dp["key"]}/'
     if "avty_t" in payload_dict:
@@ -164,7 +193,7 @@ def _publish_hass(gismo, clear: bool = False):
     # _publish(topic, payload_dict, clear)
 
     # get the dps
-    dps = list(Dp.objects.filter(gismo_id=gismo.id).values())
+    dps = list(Dp.objects.filter(gismo_model_id=gismo.gismo_model_id).values())
 
     for dp in dps:
         _publish_hass_dp(gismo, dp, clear)
@@ -181,8 +210,11 @@ def publish_gismo(gismo, clear: bool = False):
         return
     payload_dict = _filter_id(dict(gismo_set[0]))
 
+    # get the gismo_model
+    # gismo_model = GismoModel.objects.filter(id=gismo.gismo_model_id)
+
     # get the dps
-    dps = Dp.objects.filter(gismo_id=gismo.id)
+    dps = Dp.objects.filter(gismo_model_id=gismo.gismo_model_id)
 
     payload_dict["dps"] = list(map(_filter_id, list(dps.values())))
 
@@ -255,6 +287,7 @@ def init():
 
 
 """
+For ref.
 14:29:19 MQT: homeassistant/light/CAA3EA_LI_4/config =  (retained)
 14:29:19 MQT: homeassistant/switch/CAA3EA_RL_4/config = {"name":"IR Zone 4","cmd_t":"~cmnd/POWER4","stat_t":"~tele/STATE","val_tpl":"{{value_json.POWER4}}","pl_off":"OFF","pl_on":"ON","avty_t":"~tele/LWT","pl_avail":"Online","pl_not_avail":"Offline","uniq_id":"CAA3EA_RL_4","device":{"identifiers":["CAA3EA"],"connections":[["mac","60:01:94:CA:A3:EA"]]},"~":"sonoff/"} (retained)
 14:29:19 MQT: homeassistant/light/CAA3EA_LI_5/config =  (retained)
