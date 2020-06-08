@@ -90,7 +90,9 @@ def _filter_token(dict_dirty: dict, token: list):
 def _cast_type(type_value: str, value: str):
 
     if type_value == "bool":
-        return bool(value)
+        if value in ["TRUE", "True", "true", "ON", "On", "on", "1"]:
+            return True
+        return False
     if type_value == "int":
         if not value:
             return 0
@@ -183,10 +185,10 @@ def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
 
     _set_device(payload_dict, gismo_dict, pub_name)
 
-    payload_dict["~"] = f'tuyagateway/{gismo_dict["deviceid"]}/{dp["key"]}/'
+    payload_dict["~"] = f'tuya/{gismo_dict["deviceid"]}/{dp["key"]}/'
     if "avty_t" in payload_dict:
         payload_dict["avty_t"] = payload_dict["avty_t"].replace(
-            "~", f'tuyagateway/{gismo_dict["deviceid"]}/'
+            "~", f'tuya/{gismo_dict["deviceid"]}/'
         )
 
     _publish(topic, payload_dict, clear)
@@ -284,17 +286,18 @@ def publish_gismo(gismo, clear: bool = False):
     # get the dps
     dps = Dp.objects.filter(gismo_model_id=gismo.gismo_model_id)
 
-    payload_dict["dps"] = []
+    payload_dict["dps"] = {}
     for data_point in dps:
         dp_dict = {}
         # this is stupid
+        dp_key = data_point.key
         data_point_val = Dp.objects.filter(id=data_point.id).values()
         if len(data_point_val) == 0:
             continue
         dp_dict = _filter_id(dict(data_point_val[0]))
-        dp_dict["component"] = data_point.ha_component.technical_name
-        dp_dict["topic"] = data_point.ha_topic.name
-        payload_dict["dps"].append(dp_dict)
+        dp_dict["device_component"] = data_point.ha_component.technical_name
+        dp_dict["device_topic"] = data_point.ha_topic.abbreviation
+        payload_dict["dps"][dp_key] = dp_dict
 
     topic = f"tuyagateway/discovery/{payload_dict['deviceid']}"
 
