@@ -8,6 +8,13 @@ class Topic(models.Model):
     name = models.CharField(max_length=64)  # icon
     abbreviation = models.CharField(max_length=32)  # ic
     specialized_for = models.CharField(max_length=64, null=True, blank=True)
+    topic_type_choices = [
+        ("subscribe", "Subscribe"),
+        ("publish", "Publish"),
+    ]
+    topic_type = models.CharField(
+        choices=topic_type_choices, default="publish", max_length=16
+    )
 
     default_value = models.CharField(
         max_length=256, null=True, blank=True

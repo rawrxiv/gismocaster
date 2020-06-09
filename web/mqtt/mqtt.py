@@ -48,12 +48,13 @@ def on_connect(client, userdata, flags, rc):
 # TODO what are the types of these func params
 def on_message(client, userdata, message):
 
-    LOGGER.debug(
-        "Topic %s retained %s message received %s",
-        message.topic,
-        message.retain,
-        str(message.payload.decode("utf-8")),
-    )
+    # LOGGER.debug(
+    #     "Topic %s retained %s message received %s",
+    #     message.topic,
+    #     message.retain,
+    #     str(message.payload.decode("utf-8")),
+    # )
+    pass
 
 
 def _publish(topic: str, payload_dict: dict, clear: bool = False, retain: bool = True):
@@ -186,10 +187,10 @@ def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
     _set_device(payload_dict, gismo_dict, pub_name)
 
     payload_dict["~"] = f'tuya/{gismo_dict["deviceid"]}/{dp["key"]}/'
-    if "avty_t" in payload_dict:
-        payload_dict["avty_t"] = payload_dict["avty_t"].replace(
-            "~", f'tuya/{gismo_dict["deviceid"]}/'
-        )
+    # if "avty_t" in payload_dict:
+    #     payload_dict["avty_t"] = payload_dict["avty_t"].replace(
+    #         "~", f'tuya/{gismo_dict["deviceid"]}/'
+    #     )
 
     _publish(topic, payload_dict, clear)
 
@@ -228,7 +229,7 @@ def _prepare_item(item: dict, remove: list, casts: dict = None):
 
 def _publish_transformer(component):
 
-    topic = f"tuyagateway/transformer/homeassistant/{component.technical_name}"
+    topic = f"tuyagateway/config/homeassistant/{component.technical_name}"
 
     topic_dict = {}
     for topic_val in component.topics.all().values():
