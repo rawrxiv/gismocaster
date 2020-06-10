@@ -2,7 +2,7 @@
 import logging
 import json
 import paho.mqtt.client as mqtt
-from homeassistant.models import Component, TopicValue
+from homeassistant.models import Component, TopicValue, Topic
 from tuya.models import Gismo, GismoModel, Dp, DpName, HAOverwrite
 from .models import Setting
 
@@ -63,13 +63,14 @@ def _publish(topic: str, payload_dict: dict, clear: bool = False, retain: bool =
     if not MQTT_CONNECTED:
         _mqtt_connect()
 
-    payload = json.dumps(payload_dict)
-    if clear:
-        payload = None
+    payload = None
+    if not clear:
+        payload = json.dumps(payload_dict)
 
     try:
         LOGGER.debug(f"Publishing {topic} {payload} {retain}")
         MQTT_CLIENT.publish(topic, payload, retain=retain)
+
     except Exception as ex:
         LOGGER.exception(f"_publish {ex}", exc_info=False)
 
@@ -231,27 +232,28 @@ def _publish_transformer(component):
 
     topic = f"tuyagateway/config/homeassistant/{component.technical_name}"
 
-    topic_dict = {}
+    topic_list = []
     for topic_val in component.topics.all().values():
         topicid = topic_val["id"]
-        topic_dict[topic_val["abbreviation"]] = _prepare_item(
-            topic_val, ["abbreviation", "specialized_for"]
-        )
-        topic_dict[topic_val["abbreviation"]]["values"] = {
-            item["abbreviation"]: _prepare_item(item, ["abbreviation"])
+        topic_dict = _prepare_item(topic_val, ["specialized_for"])
+        # get the publish topic for sub
+        if topic_val["topic_type"] == "subscribe":
+            pub_topic = Topic.objects.filter(id=topic_val["publish_topic_id"]).values()
+            if len(pub_topic) != 0:
+                topic_dict["publish_topic"] = dict(pub_topic[0])["name"]
+
+        topic_dict["values"] = [
+            _prepare_item(item, [])
             for item in list(TopicValue.objects.filter(topic_id=topicid).values())
-        }
+        ]
+        topic_list.append(topic_dict)
 
     transformer_dict = {
-        "values": {
-            item["abbreviation"]: _prepare_item(item, ["abbreviation"])
-            for item in list(component.values.values())
-        },
-        "topics": topic_dict,
-        "templates": {
-            item["abbreviation"]: _prepare_item(item, ["abbreviation"])
-            for item in list(component.templates.values())
-        },
+        "values": [_prepare_item(item, []) for item in list(component.values.values())],
+        "topics": topic_list,
+        "templates": [
+            _prepare_item(item, []) for item in list(component.templates.values())
+        ],
     }
 
     _publish(topic, transformer_dict, False)
@@ -287,18 +289,17 @@ def publish_gismo(gismo, clear: bool = False):
     # get the dps
     dps = Dp.objects.filter(gismo_model_id=gismo.gismo_model_id)
 
-    payload_dict["dps"] = {}
+    payload_dict["dps"] = []
     for data_point in dps:
         dp_dict = {}
         # this is stupid
-        dp_key = data_point.key
         data_point_val = Dp.objects.filter(id=data_point.id).values()
         if len(data_point_val) == 0:
             continue
         dp_dict = _filter_id(dict(data_point_val[0]))
         dp_dict["device_component"] = data_point.ha_component.technical_name
-        dp_dict["device_topic"] = data_point.ha_topic.abbreviation
-        payload_dict["dps"][dp_key] = dp_dict
+        dp_dict["device_topic"] = data_point.ha_topic.name
+        payload_dict["dps"].append(dp_dict)
 
     topic = f"tuyagateway/discovery/{payload_dict['deviceid']}"
 

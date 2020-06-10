@@ -10,6 +10,16 @@
     }
 },
 {
+    "model": "homeassistant.topicvalue",
+    "pk": 13,
+    "fields": {
+        "name": "brightness_scale",
+        "abbreviation": "bri_scl",
+        "type_value": "int",
+        "default_value": 255
+    }
+},
+{
     "model": "homeassistant.componentvalue",
     "pk": 36,
     "fields": {
@@ -25,6 +35,36 @@
     "fields": {
         "name": "device_class",
         "abbreviation": "dev_cla",
+        "type_value": "string",
+        "default_value": ""
+    }
+},
+{
+    "model": "homeassistant.componentvalue",
+    "pk": 45,
+    "fields": {
+        "name": "flash_time_long",
+        "abbreviation": "flsh_tlng",
+        "type_value": "string",
+        "default_value": 10
+    }
+},
+{
+    "model": "homeassistant.componentvalue",
+    "pk": 46,
+    "fields": {
+        "name": "flash_time_short",
+        "abbreviation": "flsh_tsht",
+        "type_value": "string",
+        "default_value": 2
+    }
+},
+{
+    "model": "homeassistant.componentvalue",
+    "pk": 48,
+    "fields": {
+        "name": "effect_list",
+        "abbreviation": "fx_list",
         "type_value": "string",
         "default_value": ""
     }
@@ -96,7 +136,7 @@
         "name": "optimistic",
         "abbreviation": "opt",
         "type_value": "bool",
-        "default_value": ""
+        "default_value": false
     }
 },
 {

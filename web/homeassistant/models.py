@@ -16,6 +16,16 @@ class Topic(models.Model):
         choices=topic_type_choices, default="publish", max_length=16
     )
 
+    # TODO: show only pub. topics
+    # TODO: only show when subscribe is selected
+    publish_topic = models.ForeignKey(
+        "self",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        help_text="Topic on which the command results are published. (Only set for subscribe topics)",
+    )
+
     default_value = models.CharField(
         max_length=256, null=True, blank=True
     )  # mdi:light-switch

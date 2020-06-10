@@ -385,5 +385,14 @@
         "abbreviation": "whit_val_tpl",
         "default_value": ""
     }
+},
+{
+    "model": "homeassistant.template",
+    "pk": 44,
+    "fields": {
+        "name": "xy_value_template",
+        "abbreviation": "xy_val_tpl",
+        "default_value": ""
+    }
 }
 ]
