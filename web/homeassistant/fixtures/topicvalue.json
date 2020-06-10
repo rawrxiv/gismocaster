@@ -1,17 +1,5 @@
 [
-{
-    "model": "homeassistant.topicvalue",
-    "pk": 13,
-    "fields": {
-        "topic": 1,
-        "name": "brightness_scale",
-        "abbreviation": "bri_scl",
-        "type_value": "string",
-        "default_value": "",
-        "tuya_type_value": "string",
-        "tuya_value": null
-    }
-},
+
 {
     "model": "homeassistant.topicvalue",
     "pk": 32,
@@ -51,45 +39,7 @@
         "tuya_value": null
     }
 },
-{
-    "model": "homeassistant.topicvalue",
-    "pk": 45,
-    "fields": {
-        "topic": 1,
-        "name": "flash_time_long",
-        "abbreviation": "flsh_tlng",
-        "type_value": "string",
-        "default_value": "",
-        "tuya_type_value": "string",
-        "tuya_value": null
-    }
-},
-{
-    "model": "homeassistant.topicvalue",
-    "pk": 46,
-    "fields": {
-        "topic": 1,
-        "name": "flash_time_short",
-        "abbreviation": "flsh_tsht",
-        "type_value": "string",
-        "default_value": "",
-        "tuya_type_value": "string",
-        "tuya_value": null
-    }
-},
-{
-    "model": "homeassistant.topicvalue",
-    "pk": 48,
-    "fields": {
-        "topic": 1,
-        "name": "effect_list",
-        "abbreviation": "fx_list",
-        "type_value": "string",
-        "default_value": "",
-        "tuya_type_value": "string",
-        "tuya_value": null
-    }
-},
+
 {
     "model": "homeassistant.topicvalue",
     "pk": 52,

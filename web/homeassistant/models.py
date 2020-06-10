@@ -8,6 +8,23 @@ class Topic(models.Model):
     name = models.CharField(max_length=64)  # icon
     abbreviation = models.CharField(max_length=32)  # ic
     specialized_for = models.CharField(max_length=64, null=True, blank=True)
+    topic_type_choices = [
+        ("subscribe", "Subscribe"),
+        ("publish", "Publish"),
+    ]
+    topic_type = models.CharField(
+        choices=topic_type_choices, default="publish", max_length=16
+    )
+
+    # TODO: show only pub. topics
+    # TODO: only show when subscribe is selected
+    publish_topic = models.ForeignKey(
+        "self",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        help_text="Topic on which the command results are published. (Only set for subscribe topics)",
+    )
 
     default_value = models.CharField(
         max_length=256, null=True, blank=True

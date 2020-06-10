@@ -13,7 +13,7 @@ class TopicAdmin(admin.ModelAdmin):
     inlines = [
         TopicValueInline,
     ]
-    list_display = ("name", "abbreviation")
+    list_display = ("name", "abbreviation", "topic_type", "default_value")
 
 
 class ComponentAdmin(admin.ModelAdmin):
