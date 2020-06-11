@@ -188,10 +188,10 @@ def _publish_hass_dp(gismo: dict, dp: dict, clear: bool = False):
     _set_device(payload_dict, gismo_dict, pub_name)
 
     payload_dict["~"] = f'tuya/{gismo_dict["deviceid"]}/{dp["key"]}/'
-    # if "avty_t" in payload_dict:
-    #     payload_dict["avty_t"] = payload_dict["avty_t"].replace(
-    #         "~", f'tuya/{gismo_dict["deviceid"]}/'
-    #     )
+    if "avty_t" in payload_dict:
+        payload_dict["avty_t"] = payload_dict["avty_t"].replace(
+            "~", f'tuya/{gismo_dict["deviceid"]}/'
+        )
 
     _publish(topic, payload_dict, clear)
 
@@ -213,6 +213,7 @@ def _publish_hass(gismo, clear: bool = False):
     dps = list(Dp.objects.filter(gismo_model_id=gismo.gismo_model_id).values())
 
     for dp in dps:
+        # print("_publish_hass_dp", dp)
         _publish_hass_dp(gismo, dp, clear)
 
 
