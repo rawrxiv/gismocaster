@@ -345,7 +345,8 @@ def _mqtt_connect():
 
         host = Setting.objects.get(name="mqtt_host").value
         if not host:
-            host = "127.0.0.1"
+            # prevent connecting in setup
+            return
         port = int(Setting.objects.get(name="mqtt_port").value)
         if not port:
             port = 1883

@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from mqtt import views as mqtt_views
 
 urlpatterns = [
     path("grappelli/", include("grappelli.urls")),
     path("admin/", admin.site.urls),
-    # url(r'^chaining/', include('smart_selects.urls')),
+    path("", mqtt_views.home, name="home"),
 ]
