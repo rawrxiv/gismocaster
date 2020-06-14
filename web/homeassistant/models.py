@@ -16,10 +16,10 @@ class Topic(models.Model):
         choices=topic_type_choices, default="publish", max_length=16
     )
 
-    # TODO: show only pub. topics
     # TODO: only show when subscribe is selected
     publish_topic = models.ForeignKey(
         "self",
+        limit_choices_to={"topic_type": "publish"},
         blank=True,
         null=True,
         on_delete=models.CASCADE,

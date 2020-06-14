@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     "homeassistant.apps.HomeassistantConfig",
     "mqtt.apps.MqttConfig",
     "django_createsuperuser",
-    # "smart_selects",
+    "smart_selects",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -121,6 +121,6 @@ STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
 
 ASGI_APPLICATION = "web.routing.application"
-# USE_DJANGO_JQUERY = True
+USE_DJANGO_JQUERY = True
 
-GRAPPELLI_ADMIN_TITLE = "GismoCaster v1.0"
+GRAPPELLI_ADMIN_TITLE = "GismoCaster v1.0.1"
