@@ -1,6 +1,6 @@
 from django.db import models
 
-# from smart_selects.db_fields import ChainedForeignKey
+from smart_selects.db_fields import ChainedForeignKey
 from homeassistant.models import Component, TopicValue, Topic
 
 # Create your models here.
@@ -21,6 +21,14 @@ class GismoModel(models.Model):
         (13, "Control New"),
     ]
     pref_status_cmd = models.IntegerField(choices=pref_cmd_choices, default=10)
+
+    ha_component = models.ForeignKey(
+        Component,
+        on_delete=models.CASCADE,
+        help_text="Device type for Home Assistant",
+        null=True,
+        blank=True,
+    )
 
     def __str__(self):
         return self.name
@@ -78,8 +86,26 @@ class Dp(models.Model):
     ha_component = models.ForeignKey(
         Component, on_delete=models.CASCADE, help_text="Device type for Home Assistant"
     )
-    ha_topic = models.ForeignKey(
-        Topic, on_delete=models.CASCADE, help_text="Publish topic for Home Assistant"
+    # ha_topic = models.ForeignKey(
+    #     Topic, on_delete=models.CASCADE, help_text="Publish topic for Home Assistant"
+    # )
+
+    # ha_component = ChainedForeignKey(
+    #     GismoModel,
+    #     chained_field="ha_component",
+    #     chained_model_field="ha_component",
+    #     show_all=False,
+    #     auto_choose=True,
+    #     sort=True)
+
+    ha_topic = ChainedForeignKey(
+        Topic,
+        limit_choices_to={"topic_type": "publish"},
+        chained_field="ha_component",
+        chained_model_field="component",
+        show_all=False,
+        auto_choose=True,
+        sort=True,
     )
 
     def __str__(self):

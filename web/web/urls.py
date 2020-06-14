@@ -21,4 +21,6 @@ urlpatterns = [
     path("grappelli/", include("grappelli.urls")),
     path("admin/", admin.site.urls),
     path("", mqtt_views.home, name="home"),
+    # url(r'^chaining/', include('smart_selects.urls')),
+    path("chaining/", include("smart_selects.urls")),
 ]

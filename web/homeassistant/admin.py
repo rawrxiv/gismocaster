@@ -18,6 +18,7 @@ class TopicAdmin(admin.ModelAdmin):
 
 class ComponentAdmin(admin.ModelAdmin):
     model = Component
+    filter_horizontal = ["values", "topics", "templates"]
     list_display = ("name", "technical_name")
 
 
