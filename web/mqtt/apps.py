@@ -11,4 +11,5 @@ class MqttConfig(AppConfig):
         from . import mqtt
         from . import signals
 
+        # TODO: causes many "errors" on setup
         mqtt.init()
