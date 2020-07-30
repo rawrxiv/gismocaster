@@ -4,7 +4,7 @@
       "pk": 1,
       "fields": {
         "name": "mqtt_host",
-        "value": "127.0.0.1"
+        "value": ""
       }
     },    
     {
@@ -12,7 +12,7 @@
       "pk": 2,
       "fields": {
         "name": "mqtt_port",
-        "value": "1883"
+        "value": ""
       }
     },    
     {
