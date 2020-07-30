@@ -3,7 +3,7 @@ init:
 	python3 web/manage.py migrate	
 	python3 web/manage.py loaddata component topic template topicvalue componentvalue setting
 	python3 web/manage.py createsuperuser --username admin --password admin --email admin@admin.com
-	python3 web/manage.py collectstatic
+	#python3 web/manage.py collectstatic
 
 install:
 	sudo sed  's|{path}|'${PWD}'|' ./etc/gismocaster.service > /etc/systemd/system/gismocaster.service

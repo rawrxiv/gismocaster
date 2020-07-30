@@ -1,13 +1,12 @@
 FROM python:3.6
 
+ENV PORT=8111
+
 WORKDIR /usr/src/app
 
-COPY requirements.txt ./
+COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
-RUN make
+EXPOSE $PORT
 
-EXPOSE 8111
-
-CMD [ "python", "./web/manage.py runserver 0.0.0.0:8111 --noreload" ]
+ENTRYPOINT [ "/usr/src/app/entrypoint.sh" ]
