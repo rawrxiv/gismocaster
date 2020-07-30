@@ -11,6 +11,5 @@ if [ ! -f var/db/db.sqlite3 ]; then
   make init
 fi
 
-echo python ./web/manage.py runserver 0.0.0.0:${PORT} --noreload $@
 python ./web/manage.py runserver 0.0.0.0:${PORT} --noreload $@
 
