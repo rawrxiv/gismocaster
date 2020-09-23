@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /var/src/app
+cd /usr/src/app
 
 if [ ! -d var/db ]; then
   echo "Creating database directory."
